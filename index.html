@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="말랑 중국어">
+<meta name="theme-color" content="#FFF5F8">
+<title>🍓 삐클의 말랑 중국어 단어장</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🍓%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#FFF5F8;
+    --card:#FFE3EC;
+    --card-deep:#FFD1DF;
+    --accent:#FF7AA2;
+    --accent-deep:#FF5C8D;
+    --ink:#4A2C35;
+    --ink-soft:#9A6C7C;
+    --ink-faint:#C79BAD;
+    --mint:#4ECFA6;
+    --radius:24px;
+  }
+  *,*::before,*::after{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    min-height:100vh;
+    color:var(--ink);
+    background:var(--bg);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Malgun Gothic","PingFang SC","Hiragino Sans GB","Noto Sans SC",sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -webkit-tap-highlight-color:transparent;
+    overflow-x:hidden;
+  }
+  button,input,select{font-family:inherit;}
+  button{border:none;background:none;color:inherit;cursor:pointer;touch-action:manipulation;padding:0;}
+
+  /* ---------- soft background ---------- */
+  .bg{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;
+    background:
+      radial-gradient(circle at 12% 4%, #FFE3EC 0%, rgba(255,227,236,0) 46%),
+      radial-gradient(circle at 92% 10%, #FFF1F7 0%, rgba(255,241,247,0) 52%),
+      radial-gradient(circle at 50% 104%, #FFDCE9 0%, rgba(255,220,233,0) 56%),
+      var(--bg);
+  }
+  .bubble{position:absolute;border-radius:50%;background:radial-gradient(circle at 32% 30%, #FFFFFF 0%, #FFD1DF 78%);opacity:.42;animation:float 13s ease-in-out infinite;}
+  .bubble.b1{width:74px;height:74px;left:-18px;top:16%;animation-delay:-2s;}
+  .bubble.b2{width:42px;height:42px;right:8%;top:8%;animation-delay:-6s;opacity:.35;}
+  .bubble.b3{width:100px;height:100px;right:-34px;top:52%;animation-delay:-9s;opacity:.3;}
+  .bubble.b4{width:30px;height:30px;left:22%;top:76%;animation-delay:-4s;opacity:.45;}
+  @keyframes float{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-20px) scale(1.04);}}
+
+  /* ---------- layout ---------- */
+  .app{max-width:460px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 18px) 16px calc(env(safe-area-inset-bottom) + 36px);}
+
+  /* ---------- hero ---------- */
+  .hero{padding:2px 2px 0;}
+  .eyebrow{margin:0 0 6px;font-size:11.5px;font-weight:700;color:#C98AA0;letter-spacing:.04em;}
+  h1{margin:0;font-size:21.5px;line-height:1.38;font-weight:800;letter-spacing:-.01em;}
+  h1 .em{color:var(--accent-deep);}
+  .hero p.sub{margin:7px 0 0;font-size:12px;color:var(--ink-soft);font-weight:600;line-height:1.55;}
+
+  .progress-card{margin-top:14px;padding:13px 15px 11px;background:rgba(255,255,255,.8);border:1.5px solid #fff;border-radius:20px;box-shadow:0 8px 20px rgba(255,140,170,.14);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+  .progress-track{position:relative;height:13px;border-radius:99px;background:#FFE3EC;margin-top:3px;}
+  .progress-fill{height:100%;width:0%;border-radius:99px;background:linear-gradient(90deg,#FFB3CC,#FF5C8D);box-shadow:0 2px 8px rgba(255,92,141,.35);transition:width .7s cubic-bezier(.34,1.25,.64,1);}
+  .progress-berry{position:absolute;top:50%;left:0;transform:translate(-50%,-52%);font-size:16px;line-height:1;transition:left .7s cubic-bezier(.34,1.25,.64,1);filter:drop-shadow(0 2px 3px rgba(255,92,141,.3));}
+  .progress-label{display:flex;justify-content:space-between;align-items:center;margin-top:9px;font-size:12px;color:var(--ink-soft);font-weight:700;}
+  .progress-label #progressPct{color:var(--accent-deep);}
+
+  /* ---------- tabs ---------- */
+  .tabs{position:sticky;top:calc(env(safe-area-inset-top) + 2px);z-index:30;display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-top:16px;padding:5px;border-radius:20px;background:rgba(255,245,248,.9);border:1.5px solid rgba(255,255,255,.9);box-shadow:0 8px 22px rgba(255,122,162,.16);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+  .tab{padding:11px 4px;border-radius:16px;font-size:12.5px;font-weight:800;color:#AD7E90;letter-spacing:-.01em;white-space:nowrap;transition:background .25s,color .25s,box-shadow .25s,transform .15s;}
+  .tab:active{transform:scale(.96);}
+  .tab.active{color:#fff;background:linear-gradient(135deg,#FF9DBB,#FF5C8D);box-shadow:0 6px 14px rgba(255,92,141,.32);}
+
+  /* ---------- panels ---------- */
+  .panel{display:none;}
+  .panel.active{display:block;animation:fadeUp .32s ease both;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+  /* ---------- filter pills ---------- */
+  .pills{display:flex;gap:8px;overflow-x:auto;padding:15px 2px 4px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+  .pills::-webkit-scrollbar{display:none;}
+  .pill{flex:0 0 auto;padding:9px 14px;border-radius:99px;border:1.5px solid var(--card-deep);background:rgba(255,255,255,.82);color:#A9738A;font-size:12.5px;font-weight:800;white-space:nowrap;transition:transform .16s,background .22s,color .22s,box-shadow .22s,border-color .22s;}
+  .pill:active{transform:scale(.94);}
+  .pill.on{background:linear-gradient(135deg,#FF9DBB,#FF5C8D);color:#fff;border-color:transparent;box-shadow:0 6px 14px rgba(255,92,141,.3);}
+
+  .hint{margin:6px 4px 0;font-size:11px;color:var(--ink-faint);font-weight:600;text-align:center;}
+
+  /* ---------- word cards ---------- */
+  .word-list{display:flex;flex-direction:column;gap:13px;margin-top:13px;}
+  .flip{position:relative;height:178px;perspective:1200px;cursor:pointer;animation:popIn .42s cubic-bezier(.3,1.2,.5,1) backwards;-webkit-tap-highlight-color:transparent;}
+  .no-anim .flip{animation:none;}
+  @keyframes popIn{from{opacity:0;transform:translateY(12px) scale(.975);}to{opacity:1;transform:none;}}
+  .flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.3,.9,.3,1);will-change:transform;}
+  .flip.on .flip-inner{transform:rotateY(180deg);}
+  .face{position:absolute;inset:0;display:flex;flex-direction:column;padding:13px 17px 15px;border-radius:var(--radius);border:1.5px solid #fff;box-shadow:0 10px 22px rgba(255,140,170,.16);backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;transition:background .3s;}
+  .face.front{background:linear-gradient(155deg,#FFFFFF 0%,#FFEEF4 100%);}
+  .face.back{transform:rotateY(180deg);background:linear-gradient(155deg,#FFEAF1 0%,#FFD1DF 100%);}
+  .flip.done .face.front{background:linear-gradient(155deg,#F8FFFC 0%,#E8F9F2 100%);}
+  .flip.done .face.back{background:linear-gradient(155deg,#EDFBF5 0%,#D6F4E7 100%);}
+
+  .card-top{display:flex;align-items:center;gap:6px;flex:0 0 auto;}
+  .chip{font-size:10px;font-weight:800;color:#C4718D;background:#FFE3EC;border-radius:99px;padding:4px 9px;letter-spacing:.02em;line-height:1.3;}
+  .chip.mine{background:#fff;color:#E8628C;border:1px dashed #FFBACE;}
+  .check{margin-left:auto;width:31px;height:31px;border-radius:50%;border:2px solid #FFC7D9;background:#fff;color:transparent;font-size:14px;font-weight:800;display:grid;place-items:center;flex:0 0 auto;line-height:1;transition:all .25s;}
+  .check:active{transform:scale(.88);}
+  .flip.done .check{background:linear-gradient(135deg,#8CEBCB,#4ECFA6);border-color:transparent;color:#fff;box-shadow:0 4px 10px rgba(78,207,166,.35);}
+
+  .mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center;min-height:0;}
+  .hanzi{font-size:39px;font-weight:700;letter-spacing:.04em;line-height:1.15;font-family:"PingFang SC","Hiragino Sans GB","Noto Sans SC",-apple-system,sans-serif;}
+  .pinyin{font-size:14.5px;font-weight:700;color:#E8628C;letter-spacing:.01em;}
+  .meaning{font-size:18px;font-weight:800;line-height:1.3;}
+  .kosound{font-size:12.5px;font-weight:700;color:#8A5A6B;margin-top:5px;}
+  .kosound span{color:#B08395;font-weight:600;}
+  .tone{font-size:11px;font-weight:600;color:#A9738A;line-height:1.55;margin-top:6px;padding:0 2px;}
+
+  .card-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;flex:0 0 auto;min-height:38px;}
+  .tap-hint{font-size:10px;font-weight:700;color:#C79BAD;letter-spacing:.01em;}
+  .icon-btn{width:38px;height:38px;border-radius:50%;background:#fff;box-shadow:0 4px 12px rgba(255,120,160,.22);font-size:15px;display:grid;place-items:center;flex:0 0 auto;transition:transform .16s,box-shadow .2s;}
+  .icon-btn:active{transform:scale(.88);box-shadow:0 2px 6px rgba(255,120,160,.3);}
+  .icon-btn.playing{animation:pulse .6s ease;}
+  @keyframes pulse{0%{transform:scale(1);}40%{transform:scale(1.18);}100%{transform:scale(1);}}
+
+  .empty{margin-top:26px;padding:34px 22px;text-align:center;border-radius:var(--radius);background:rgba(255,255,255,.7);border:1.5px dashed #FFD1DF;}
+  .empty .em{font-size:34px;display:block;margin-bottom:10px;animation:bob 2.6s ease-in-out infinite;}
+  .empty p{margin:0;font-size:12.5px;line-height:1.7;color:var(--ink-soft);font-weight:600;}
+  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+
+  /* ---------- quiz ---------- */
+  .quiz-head{display:flex;gap:8px;justify-content:space-between;align-items:center;margin:15px 0 12px;}
+  .score-pill,.streak-pill{background:rgba(255,255,255,.86);border:1.5px solid #fff;border-radius:99px;padding:8px 14px;font-size:12px;font-weight:800;color:var(--ink-soft);box-shadow:0 6px 14px rgba(255,140,170,.12);}
+  .score-pill b{color:var(--accent-deep);font-size:14px;}
+  .streak-pill{color:#FF8A3D;}
+
+  .quiz-card{background:linear-gradient(155deg,#FFFFFF,#FFEEF4);border:1.5px solid #fff;border-radius:var(--radius);padding:22px 18px 18px;text-align:center;box-shadow:0 10px 22px rgba(255,140,170,.16);animation:popIn .34s ease both;}
+  .q-label{margin:0 0 12px;font-size:11px;font-weight:800;color:#C4718D;letter-spacing:.08em;}
+  .q-hanzi{font-size:42px;font-weight:700;letter-spacing:.04em;line-height:1.2;font-family:"PingFang SC","Hiragino Sans GB","Noto Sans SC",-apple-system,sans-serif;}
+  .q-meaning{font-size:22px;font-weight:800;line-height:1.35;}
+  .q-pinyin{font-size:13.5px;font-weight:700;color:#E8628C;margin-top:5px;}
+  .q-listen{margin:12px auto 0;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:99px;background:#fff;box-shadow:0 4px 12px rgba(255,120,160,.2);font-size:11.5px;font-weight:800;color:#C4718D;}
+
+  .options{display:flex;flex-direction:column;gap:9px;margin-top:14px;}
+  .opt{width:100%;display:flex;align-items:center;gap:10px;text-align:left;padding:14px 15px;border-radius:18px;border:1.5px solid var(--card-deep);background:#fff;color:var(--ink);font-size:14px;font-weight:700;line-height:1.4;box-shadow:0 4px 12px rgba(255,140,170,.1);transition:transform .16s,background .2s,border-color .2s,color .2s;}
+  .opt:active{transform:scale(.98);}
+  .opt .num{width:22px;height:22px;border-radius:50%;background:#FFE3EC;color:#C4718D;font-size:10.5px;font-weight:800;display:grid;place-items:center;flex:0 0 auto;}
+  .opt.locked{pointer-events:none;}
+  .opt.correct{background:linear-gradient(135deg,#EAFBF4,#D5F7E9);border-color:#7FDFC0;color:#1C7A5C;}
+  .opt.correct .num{background:#7FDFC0;color:#fff;}
+  .opt.wrong{background:#FFE3EA;border-color:#FF8FAE;color:#AC3157;}
+  .opt.wrong .num{background:#FF8FAE;color:#fff;}
+
+  .fb{margin-top:15px;padding:15px;border-radius:20px;background:rgba(255,255,255,.92);border:1.5px solid #fff;box-shadow:0 8px 18px rgba(255,140,170,.13);animation:popIn .3s ease both;}
+  .fb.good{border-color:#BEEEDC;}
+  .fb.bad{border-color:#FFD1DF;}
+  .fb-msg{font-size:14px;font-weight:800;line-height:1.5;}
+  .fb-answer{margin-top:8px;font-size:12.5px;font-weight:600;color:#7A5261;line-height:1.65;word-break:keep-all;}
+  .fb-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+  .mini-btn{padding:12px 15px;border-radius:16px;border:1.5px solid var(--card-deep);background:#fff;color:#C4718D;font-size:12px;font-weight:800;flex:1;}
+  .mini-btn:active{transform:scale(.97);}
+  .mini-btn.done{background:#EAFBF4;border-color:#BEEEDC;color:#2E9472;pointer-events:none;}
+
+  .primary-btn{width:100%;padding:15px;border-radius:18px;background:linear-gradient(135deg,#FF9DBB,#FF5C8D);color:#fff;font-size:14.5px;font-weight:800;box-shadow:0 8px 18px rgba(255,92,141,.3);transition:transform .16s,box-shadow .2s;}
+  .primary-btn:active{transform:scale(.97);box-shadow:0 4px 12px rgba(255,92,141,.35);}
+  .primary-btn.small{width:auto;padding:12px 18px;font-size:12.5px;flex:1;white-space:nowrap;}
+  .primary-btn:disabled{opacity:.55;box-shadow:none;}
+
+  .quiz-start{background:linear-gradient(155deg,#FFFFFF,#FFEEF4);border:1.5px solid #fff;border-radius:var(--radius);padding:30px 22px;text-align:center;box-shadow:0 10px 22px rgba(255,140,170,.16);margin-top:4px;}
+  .quiz-emoji{font-size:44px;line-height:1;animation:bob 2.4s ease-in-out infinite;}
+  .quiz-start h3{margin:14px 0 8px;font-size:16.5px;font-weight:800;}
+  .quiz-start p{margin:0 0 18px;font-size:12.5px;color:var(--ink-soft);font-weight:600;line-height:1.7;}
+
+  /* ---------- add form ---------- */
+  .add-card{margin-top:15px;padding:18px 16px 16px;background:rgba(255,255,255,.85);border:1.5px solid #fff;border-radius:var(--radius);box-shadow:0 10px 22px rgba(255,140,170,.14);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+  .field{margin-bottom:12px;}
+  .field label{display:block;margin:0 0 6px 4px;font-size:11px;font-weight:800;color:#C4718D;letter-spacing:.03em;}
+  .field input,.field select{width:100%;padding:13px 14px;border-radius:16px;border:1.5px solid var(--card-deep);background:#FFF9FB;font-size:16px;font-weight:600;color:var(--ink);transition:border-color .2s,background .2s,box-shadow .2s;}
+  .field input::placeholder{color:#DFB8C6;font-weight:500;font-size:14px;}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--accent);background:#fff;box-shadow:0 0 0 4px rgba(255,122,162,.14);}
+  .field select{-webkit-appearance:none;appearance:none;padding-right:38px;background-image:linear-gradient(45deg,transparent 50%,#FF7AA2 50%),linear-gradient(135deg,#FF7AA2 50%,transparent 50%);background-position:calc(100% - 21px) 22px,calc(100% - 15px) 22px;background-size:6px 6px,6px 6px;background-repeat:no-repeat;}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+
+  .sec-title{margin:24px 4px 10px;font-size:12.5px;font-weight:800;color:#8A5A6B;}
+  .my-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:18px;background:rgba(255,255,255,.86);border:1.5px solid #fff;box-shadow:0 4px 12px rgba(255,140,170,.1);margin-bottom:8px;}
+  .my-hanzi{font-size:17px;font-weight:700;margin-right:8px;font-family:"PingFang SC","Hiragino Sans GB",sans-serif;}
+  .my-meaning{font-size:12px;font-weight:600;color:var(--ink-soft);}
+  .del-btn{flex:0 0 auto;padding:8px 12px;border-radius:99px;background:#FFE3EC;color:#D8567F;font-size:11px;font-weight:800;}
+  .del-btn:active{transform:scale(.94);}
+  .muted{margin:0;padding:16px;text-align:center;font-size:12px;font-weight:600;color:var(--ink-faint);line-height:1.7;background:rgba(255,255,255,.6);border-radius:18px;border:1.5px dashed #FFDDE8;}
+
+  .ghost-btn{width:100%;margin-top:18px;padding:13px;border-radius:16px;border:1.5px dashed #FFC7D9;background:transparent;color:#C4718D;font-size:12px;font-weight:800;}
+  .ghost-btn:active{transform:scale(.98);}
+
+  .foot{margin-top:30px;text-align:center;font-size:10.5px;line-height:1.8;color:var(--ink-faint);font-weight:600;padding:0 8px;}
+
+  /* ---------- misc ---------- */
+  .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 26px);transform:translate(-50%,18px);z-index:200;padding:12px 18px;border-radius:99px;background:rgba(74,44,53,.93);color:#fff;font-size:12.5px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .28s,transform .28s;max-width:88vw;text-align:center;line-height:1.4;}
+  .toast.show{opacity:1;transform:translate(-50%,0);}
+
+  .berry-pop{position:fixed;z-index:300;pointer-events:none;font-size:20px;transform:translate(-50%,-50%);animation:popUp .9s ease-out forwards;}
+  @keyframes popUp{0%{opacity:0;transform:translate(-50%,-50%) scale(.4);}28%{opacity:1;transform:translate(-50%,-95%) scale(1.15);}100%{opacity:0;transform:translate(-50%,-230%) scale(.85);}}
+
+  @media (max-width:360px){
+    h1{font-size:19.5px;}
+    .tab{font-size:11.5px;padding:10px 2px;}
+    .hanzi{font-size:35px;}
+    .flip{height:170px;}
+    .q-hanzi{font-size:38px;}
+  }
+  /* ============================================================
+     정적 미리보기 (JavaScript 없음: iOS 훑어보기 · 메일 미리보기)
+     body 에 .js-ready 가 없을 때만 적용돼요.
+     → 카드를 뒤집지 않아도 한 장에 모든 정보가 다 보입니다.
+     ============================================================ */
+  .only-static{display:none;}
+  .static-banner{display:none;}
+
+  body:not(.js-ready) *{animation:none !important;transition:none !important;}
+  body:not(.js-ready) .only-static{display:inline;}
+  body:not(.js-ready) .only-js{display:none !important;}
+
+  /* JS 전용 UI는 감춥니다 (탭 · 필터 · 퀴즈 · 단어 추가 · 체크 · 발음 버튼) */
+  body:not(.js-ready) .tabs,
+  body:not(.js-ready) .pills,
+  body:not(.js-ready) .progress-card,
+  body:not(.js-ready) #panel-quiz,
+  body:not(.js-ready) #panel-add,
+  body:not(.js-ready) .check,
+  body:not(.js-ready) .icon-btn{display:none !important;}
+
+  body:not(.js-ready) .static-banner{
+    display:block;margin-top:15px;padding:12px 15px;border-radius:18px;
+    background:rgba(255,255,255,.88);border:1.5px solid #fff;
+    box-shadow:0 8px 20px rgba(255,140,170,.14);
+    font-size:12px;font-weight:700;color:#9A6C7C;text-align:center;line-height:1.6;
+  }
+  body:not(.js-ready) .static-banner b{color:#FF5C8D;}
+
+  /* 카드: 세로로 펼친 한 장의 딸기우유 카드 */
+  body:not(.js-ready) .word-list{gap:12px;margin-top:12px;}
+  body:not(.js-ready) .flip{
+    height:auto !important;
+    perspective:none;
+    cursor:default;
+    padding:14px 17px 15px;
+    border-radius:var(--radius);
+    border:1.5px solid #fff;
+    background:linear-gradient(155deg,#FFFFFF 0%,#FFEEF4 100%);
+    box-shadow:0 10px 22px rgba(255,140,170,.16);
+  }
+  body:not(.js-ready) .flip-inner{
+    position:static;height:auto;width:100%;
+    display:flex;flex-direction:column;
+    transform:none !important;transform-style:flat;
+  }
+  body:not(.js-ready) .face{
+    position:static;inset:auto;overflow:visible;
+    padding:0;border:none;box-shadow:none;background:none;
+    transform:none !important;-webkit-transform:none !important;
+    backface-visibility:visible;-webkit-backface-visibility:visible;
+  }
+  body:not(.js-ready) .face.back{
+    margin-top:11px;padding-top:11px;
+    border-top:1.5px dashed #FFC7D9;
+  }
+  body:not(.js-ready) .face .card-bottom,
+  body:not(.js-ready) .face.back .card-top{display:none !important;}
+  body:not(.js-ready) .mid{flex:none;justify-content:flex-start;gap:2px;min-height:0;}
+  body:not(.js-ready) .face.front .mid{padding-top:2px;}
+  body:not(.js-ready) .hanzi{font-size:33px;line-height:1.2;}
+  body:not(.js-ready) .pinyin{font-size:13.5px;}
+  body:not(.js-ready) .meaning{font-size:16.5px;}
+  body:not(.js-ready) .kosound{margin-top:6px;font-size:12px;}
+  body:not(.js-ready) .tone{
+    margin-top:9px;padding:8px 11px;border-radius:14px;
+    background:#FFF7FA;border:1px solid #FFE3EC;
+    font-size:11px;color:#8A5A6B;line-height:1.65;text-align:left;
+  }
+  body:not(.js-ready) .foot .only-static{display:block;}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
+  }
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true">
+  <span class="bubble b1"></span>
+  <span class="bubble b2"></span>
+  <span class="bubble b3"></span>
+  <span class="bubble b4"></span>
+</div>
+
+<div class="app">
+  <header class="hero">
+    <p class="eyebrow">혜빈님 전용 · 왕초보 성조부터 🍓</p>
+    <h1>🍓 삐클의 <span class="em">말랑 중국어</span> 단어장</h1>
+    <p class="sub"><span class="only-js">카드를 톡 누르면 뜻이 보이고, 발음도 들려드려요.</span><span class="only-static">37개 단어의 뜻 · 한국어 발음 · 성조 팁을 카드마다 펼쳐 두었어요.</span></p>
+
+    <div class="progress-card">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+        <span class="progress-berry" id="progressBerry">🍓</span>
+      </div>
+      <div class="progress-label">
+        <span id="progressText">외운 단어 0 / 총 0개</span>
+        <span id="progressPct">0%</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs" role="tablist">
+    <button class="tab active" data-tab="cards" role="tab">🃏 단어 카드</button>
+    <button class="tab" data-tab="quiz" role="tab">🎲 퀴즈</button>
+    <button class="tab" data-tab="add" role="tab">➕ 단어 추가</button>
+  </nav>
+
+  <main>
+    <!-- 단어 카드 -->
+    <section class="panel active" id="panel-cards" role="tabpanel">
+      <div class="pills" id="pills"></div>
+      <div class="static-banner only-static">🍓 총 <b>37</b>개 단어 · 뜻 · 한국어 발음 · 성조 팁까지</div>
+      <p class="hint" id="cardsHint"><span class="only-js">카드를 톡 누르면 뜻이 보여요 🫧</span><span class="only-static">🍓 위에서부터 천천히 읽어 보세요</span></p>
+      <div class="word-list" id="wordList">
+        <div class="flip" data-id="g01">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="mid"><div class="hanzi">你好</div><div class="pinyin">nǐ hǎo</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="mid">
+                <div class="meaning">안녕하세요</div>
+                <div class="kosound">발음 <span>·</span> 니 하오</div>
+                <div class="tone">성조 · 3성+3성 → 앞 글자는 2성처럼 올려서 &#x27;니 하오&#x27;</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="g02">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="mid"><div class="hanzi">谢谢</div><div class="pinyin">xièxie</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="mid">
+                <div class="meaning">고마워요</div>
+                <div class="kosound">발음 <span>·</span> 시에 시에</div>
+                <div class="tone">성조 · 4성+가볍게 → &#x27;시에&#x27;를 또박또박 짧게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="g03">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="mid"><div class="hanzi">不客气</div><div class="pinyin">bú kèqi</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="mid">
+                <div class="meaning">천만에요</div>
+                <div class="kosound">발음 <span>·</span> 뿌 커 치</div>
+                <div class="tone">성조 · 不는 4성 앞에서 2성 → &#x27;뿌&#x27;</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="g04">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="mid"><div class="hanzi">再见</div><div class="pinyin">zàijiàn</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="mid">
+                <div class="meaning">안녕히 가세요 · 또 봐요</div>
+                <div class="kosound">발음 <span>·</span> 짜이 지엔</div>
+                <div class="tone">성조 · 4성+4성 → 힘 있게 뚝뚝</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="g05">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="mid"><div class="hanzi">对不起</div><div class="pinyin">duìbuqǐ</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="mid">
+                <div class="meaning">미안해요</div>
+                <div class="kosound">발음 <span>·</span> 뚜이 뿌 치</div>
+                <div class="tone">성조 · 4성+가볍게+3성 → 끝을 올려요</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="g06">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="mid"><div class="hanzi">没关系</div><div class="pinyin">méi guānxi</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="mid">
+                <div class="meaning">괜찮아요</div>
+                <div class="kosound">발음 <span>·</span> 메이 꾸안 시</div>
+                <div class="tone">성조 · 2성+1성+가볍게 → &#x27;메이&#x27;를 올려서</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="g07">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="mid"><div class="hanzi">请问</div><div class="pinyin">qǐngwèn</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="mid">
+                <div class="meaning">실례합니다 · 여쭤볼게요</div>
+                <div class="kosound">발음 <span>·</span> 칭 원</div>
+                <div class="tone">성조 · 3성+4성 → 낮게 깔았다가 올리기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="g08">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="mid"><div class="hanzi">是</div><div class="pinyin">shì</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="mid">
+                <div class="meaning">~이다 · 네</div>
+                <div class="kosound">발음 <span>·</span> 스</div>
+                <div class="tone">성조 · 4성 → 아주 짧게 뚝</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="n01">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="mid"><div class="hanzi">一</div><div class="pinyin">yī</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="mid">
+                <div class="meaning">하나 · 1</div>
+                <div class="kosound">발음 <span>·</span> 이</div>
+                <div class="tone">성조 · 1성 → 높고 평평하게 길게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="n02">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="mid"><div class="hanzi">二</div><div class="pinyin">èr</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="mid">
+                <div class="meaning">둘 · 2</div>
+                <div class="kosound">발음 <span>·</span> 얼</div>
+                <div class="tone">성조 · 4성 → &#x27;얼&#x27;을 톡 떨어뜨리기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="n03">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="mid"><div class="hanzi">三</div><div class="pinyin">sān</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="mid">
+                <div class="meaning">셋 · 3</div>
+                <div class="kosound">발음 <span>·</span> 싼</div>
+                <div class="tone">성조 · 1성 → 높은 음을 쭉 유지</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="n04">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="mid"><div class="hanzi">十</div><div class="pinyin">shí</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="mid">
+                <div class="meaning">열 · 10</div>
+                <div class="kosound">발음 <span>·</span> 스</div>
+                <div class="tone">성조 · 2성 → 끝을 올려 올려</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="n05">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="mid"><div class="hanzi">今天</div><div class="pinyin">jīntiān</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="mid">
+                <div class="meaning">오늘</div>
+                <div class="kosound">발음 <span>·</span> 찐 티엔</div>
+                <div class="tone">성조 · 1성+1성 → 둘 다 높게 평평</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="n06">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="mid"><div class="hanzi">明天</div><div class="pinyin">míngtiān</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="mid">
+                <div class="meaning">내일</div>
+                <div class="kosound">발음 <span>·</span> 밍 티엔</div>
+                <div class="tone">성조 · 2성+1성 → 올렸다가 그대로</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="n07">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="mid"><div class="hanzi">现在</div><div class="pinyin">xiànzài</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="mid">
+                <div class="meaning">지금</div>
+                <div class="kosound">발음 <span>·</span> 시엔 짜이</div>
+                <div class="tone">성조 · 4성+4성 → 뚝, 뚝</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="n08">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="mid"><div class="hanzi">几点了</div><div class="pinyin">jǐ diǎn le</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="mid">
+                <div class="meaning">몇 시예요?</div>
+                <div class="kosound">발음 <span>·</span> 지 띠엔 러</div>
+                <div class="tone">성조 · 3성+3성+가볍게 → &#x27;지 띠엔&#x27; 낮게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="f01">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="mid"><div class="hanzi">水</div><div class="pinyin">shuǐ</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="mid">
+                <div class="meaning">물</div>
+                <div class="kosound">발음 <span>·</span> 쉐이</div>
+                <div class="tone">성조 · 3성 → 낮게 깔았다가 올리기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="f02">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="mid"><div class="hanzi">咖啡</div><div class="pinyin">kāfēi</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="mid">
+                <div class="meaning">커피</div>
+                <div class="kosound">발음 <span>·</span> 카 페이</div>
+                <div class="tone">성조 · 1성+1성 → 높게 평평</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="f03">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="mid"><div class="hanzi">茶</div><div class="pinyin">chá</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="mid">
+                <div class="meaning">차(티)</div>
+                <div class="kosound">발음 <span>·</span> 차</div>
+                <div class="tone">성조 · 2성 → 올리면서 &#x27;차&#x27;</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="f04">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="mid"><div class="hanzi">好吃</div><div class="pinyin">hǎochī</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="mid">
+                <div class="meaning">맛있어요</div>
+                <div class="kosound">발음 <span>·</span> 하오 츠</div>
+                <div class="tone">성조 · 3성+1성 → 낮게 갔다가 높게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="f05">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="mid"><div class="hanzi">珍珠奶茶</div><div class="pinyin">zhēnzhū nǎichá</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="mid">
+                <div class="meaning">버블티(타피오카 밀크티)</div>
+                <div class="kosound">발음 <span>·</span> 쩐 쭈 나이 차</div>
+                <div class="tone">성조 · 1성+1성+3성+2성 → &#x27;나이&#x27;는 낮게, &#x27;차&#x27;는 올리기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="f06">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="mid"><div class="hanzi">草莓</div><div class="pinyin">cǎoméi</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="mid">
+                <div class="meaning">딸기</div>
+                <div class="kosound">발음 <span>·</span> 차오 메이</div>
+                <div class="tone">성조 · 3성+2성 → &#x27;차오&#x27; 낮게, &#x27;메이&#x27; 올리기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="f07">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="mid"><div class="hanzi">牛奶</div><div class="pinyin">niúnǎi</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="mid">
+                <div class="meaning">우유</div>
+                <div class="kosound">발음 <span>·</span> 니우 나이</div>
+                <div class="tone">성조 · 2성+3성 → 올렸다가 낮게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="f08">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="mid"><div class="hanzi">我要这个</div><div class="pinyin">wǒ yào zhège</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="mid">
+                <div class="meaning">이거 주세요</div>
+                <div class="kosound">발음 <span>·</span> 워 야오 쩌 거</div>
+                <div class="tone">성조 · 3성+4성+4성+가볍게 → &#x27;워&#x27; 낮게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="e01">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">감정·표현</span></div>
+              <div class="mid"><div class="hanzi">好</div><div class="pinyin">hǎo</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">감정·표현</span></div>
+              <div class="mid">
+                <div class="meaning">좋아요</div>
+                <div class="kosound">발음 <span>·</span> 하오</div>
+                <div class="tone">성조 · 3성 → 낮게 깔았다 올리기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="e02">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">감정·표현</span></div>
+              <div class="mid"><div class="hanzi">可爱</div><div class="pinyin">kě&#x27;ài</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">감정·표현</span></div>
+              <div class="mid">
+                <div class="meaning">귀여워요</div>
+                <div class="kosound">발음 <span>·</span> 커 아이</div>
+                <div class="tone">성조 · 3성+4성 → &#x27;커&#x27; 낮게, &#x27;아이&#x27; 뚝</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="e03">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">감정·표현</span></div>
+              <div class="mid"><div class="hanzi">开心</div><div class="pinyin">kāixīn</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">감정·표현</span></div>
+              <div class="mid">
+                <div class="meaning">기뻐요 · 행복해요</div>
+                <div class="kosound">발음 <span>·</span> 카이 신</div>
+                <div class="tone">성조 · 1성+1성 → 높게 평평</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="e04">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">감정·표현</span></div>
+              <div class="mid"><div class="hanzi">累</div><div class="pinyin">lèi</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">감정·표현</span></div>
+              <div class="mid">
+                <div class="meaning">피곤해요</div>
+                <div class="kosound">발음 <span>·</span> 레이</div>
+                <div class="tone">성조 · 4성 → &#x27;레이&#x27; 톡 떨어뜨리기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="e05">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">감정·표현</span></div>
+              <div class="mid"><div class="hanzi">不知道</div><div class="pinyin">bù zhīdào</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">감정·표현</span></div>
+              <div class="mid">
+                <div class="meaning">몰라요</div>
+                <div class="kosound">발음 <span>·</span> 뿌 쯔 따오</div>
+                <div class="tone">성조 · 4성+1성+4성 → &#x27;쯔&#x27;만 높게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="e06">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">감정·표현</span></div>
+              <div class="mid"><div class="hanzi">加油</div><div class="pinyin">jiāyóu</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">감정·표현</span></div>
+              <div class="mid">
+                <div class="meaning">힘내요! · 화이팅</div>
+                <div class="kosound">발음 <span>·</span> 지아 요우</div>
+                <div class="tone">성조 · 1성+2성 → 높게 시작해서 올리기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="s01">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
+              <div class="mid"><div class="hanzi">多少钱</div><div class="pinyin">duōshao qián</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
+              <div class="mid">
+                <div class="meaning">얼마예요?</div>
+                <div class="kosound">발음 <span>·</span> 뚜어 샤오 치엔</div>
+                <div class="tone">성조 · 1성+가볍게+2성 → &#x27;치엔&#x27;을 올려서</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="s02">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
+              <div class="mid"><div class="hanzi">贵</div><div class="pinyin">guì</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
+              <div class="mid">
+                <div class="meaning">비싸요</div>
+                <div class="kosound">발음 <span>·</span> 꾸이</div>
+                <div class="tone">성조 · 4성 → 짧고 힘있게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="s03">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
+              <div class="mid"><div class="hanzi">便宜</div><div class="pinyin">piányi</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
+              <div class="mid">
+                <div class="meaning">싸요</div>
+                <div class="kosound">발음 <span>·</span> 피엔 이</div>
+                <div class="tone">성조 · 2성+가볍게 → &#x27;피엔&#x27; 올리기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="s04">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
+              <div class="mid"><div class="hanzi">快递</div><div class="pinyin">kuàidì</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
+              <div class="mid">
+                <div class="meaning">택배</div>
+                <div class="kosound">발음 <span>·</span> 콰이 띠</div>
+                <div class="tone">성조 · 4성+4성 → 뚝, 뚝</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="s05">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
+              <div class="mid"><div class="hanzi">买</div><div class="pinyin">mǎi</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
+              <div class="mid">
+                <div class="meaning">사다 · 살게요</div>
+                <div class="kosound">발음 <span>·</span> 마이</div>
+                <div class="tone">성조 · 3성 → 낮게 깔았다 올리기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="s06">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
+              <div class="mid"><div class="hanzi">洗手间</div><div class="pinyin">xǐshǒujiān</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
+              <div class="mid">
+                <div class="meaning">화장실</div>
+                <div class="kosound">발음 <span>·</span> 시 서우 지엔</div>
+                <div class="tone">성조 · 3성+3성+1성 → 앞은 낮게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="s07">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
+              <div class="mid"><div class="hanzi">手工</div><div class="pinyin">shǒugōng</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
+              <div class="mid">
+                <div class="meaning">수작업 · 핸드메이드</div>
+                <div class="kosound">발음 <span>·</span> 서우 꿍</div>
+                <div class="tone">성조 · 3성+1성 → 낮게 갔다가 높게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 퀴즈 -->
+    <section class="panel" id="panel-quiz" role="tabpanel">
+      <div class="quiz-head">
+        <div class="score-pill">정답 <b id="qCorrect">0</b> / <span id="qTotal">0</span></div>
+        <div class="streak-pill" id="qStreak">🔥 0</div>
+      </div>
+      <div id="quizBox"></div>
+    </section>
+
+    <!-- 단어 추가 -->
+    <section class="panel" id="panel-add" role="tabpanel">
+      <form class="add-card" id="addForm" autocomplete="off">
+        <div class="field">
+          <label for="fHanzi">한자 (중국어)</label>
+          <input id="fHanzi" type="text" placeholder="예) 珍珠奶茶" inputmode="text" autocapitalize="off" autocorrect="off">
+        </div>
+        <div class="two">
+          <div class="field">
+            <label for="fPinyin">병음 (성조)</label>
+            <input id="fPinyin" type="text" placeholder="zhēnzhū nǎichá" autocapitalize="off" autocorrect="off">
+          </div>
+          <div class="field">
+            <label for="fKo">한국어 발음</label>
+            <input id="fKo" type="text" placeholder="쩐쭈 나이차">
+          </div>
+        </div>
+        <div class="field">
+          <label for="fMeaning">뜻 (한국어)</label>
+          <input id="fMeaning" type="text" placeholder="예) 버블티">
+        </div>
+        <div class="field">
+          <label for="fCategory">카테고리</label>
+          <select id="fCategory"></select>
+        </div>
+        <button type="submit" class="primary-btn">🍓 단어 담기</button>
+      </form>
+
+      <h3 class="sec-title">내가 추가한 단어</h3>
+      <div id="myWords"></div>
+
+      <button class="ghost-btn" id="resetBtn" type="button">외운 기록 초기화</button>
+    </section>
+  </main>
+
+  <p class="foot">
+    <span class="only-js">🔊 발음은 기기의 중국어(zh-CN) 음성으로 재생돼요. 아이폰이 무음 모드면 소리가 안 날 수 있어요.<br></span>
+    <span class="only-static">정적 미리보기라 카드가 모두 펼쳐져 있어요. 브라우저에서 열면 퀴즈 · 발음 듣기 · 단어 추가도 써요.<br></span>
+    외운 체크는 이 기기에만 저장돼요 · made with 🍓 by 삐클
+  </p>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* =========================================================
+     1. 단어 데이터
+     ========================================================= */
+  var WORDS = [
+    /* 인사·기본 */
+    {id:"g01", hanzi:"你好", pinyin:"nǐ hǎo", koSound:"니 하오", meaning:"안녕하세요", category:"인사·기본", tone:"3성+3성 → 앞 글자는 2성처럼 올려서 '니 하오'"},
+    {id:"g02", hanzi:"谢谢", pinyin:"xièxie", koSound:"시에 시에", meaning:"고마워요", category:"인사·기본", tone:"4성+가볍게 → '시에'를 또박또박 짧게"},
+    {id:"g03", hanzi:"不客气", pinyin:"bú kèqi", koSound:"뿌 커 치", meaning:"천만에요", category:"인사·기본", tone:"不는 4성 앞에서 2성 → '뿌'"},
+    {id:"g04", hanzi:"再见", pinyin:"zàijiàn", koSound:"짜이 지엔", meaning:"안녕히 가세요 · 또 봐요", category:"인사·기본", tone:"4성+4성 → 힘 있게 뚝뚝"},
+    {id:"g05", hanzi:"对不起", pinyin:"duìbuqǐ", koSound:"뚜이 뿌 치", meaning:"미안해요", category:"인사·기본", tone:"4성+가볍게+3성 → 끝을 올려요"},
+    {id:"g06", hanzi:"没关系", pinyin:"méi guānxi", koSound:"메이 꾸안 시", meaning:"괜찮아요", category:"인사·기본", tone:"2성+1성+가볍게 → '메이'를 올려서"},
+    {id:"g07", hanzi:"请问", pinyin:"qǐngwèn", koSound:"칭 원", meaning:"실례합니다 · 여쭤볼게요", category:"인사·기본", tone:"3성+4성 → 낮게 깔았다가 올리기"},
+    {id:"g08", hanzi:"是", pinyin:"shì", koSound:"스", meaning:"~이다 · 네", category:"인사·기본", tone:"4성 → 아주 짧게 뚝"},
+
+    /* 숫자·시간 */
+    {id:"n01", hanzi:"一", pinyin:"yī", koSound:"이", meaning:"하나 · 1", category:"숫자·시간", tone:"1성 → 높고 평평하게 길게"},
+    {id:"n02", hanzi:"二", pinyin:"èr", koSound:"얼", meaning:"둘 · 2", category:"숫자·시간", tone:"4성 → '얼'을 톡 떨어뜨리기"},
+    {id:"n03", hanzi:"三", pinyin:"sān", koSound:"싼", meaning:"셋 · 3", category:"숫자·시간", tone:"1성 → 높은 음을 쭉 유지"},
+    {id:"n04", hanzi:"十", pinyin:"shí", koSound:"스", meaning:"열 · 10", category:"숫자·시간", tone:"2성 → 끝을 올려 올려"},
+    {id:"n05", hanzi:"今天", pinyin:"jīntiān", koSound:"찐 티엔", meaning:"오늘", category:"숫자·시간", tone:"1성+1성 → 둘 다 높게 평평"},
+    {id:"n06", hanzi:"明天", pinyin:"míngtiān", koSound:"밍 티엔", meaning:"내일", category:"숫자·시간", tone:"2성+1성 → 올렸다가 그대로"},
+    {id:"n07", hanzi:"现在", pinyin:"xiànzài", koSound:"시엔 짜이", meaning:"지금", category:"숫자·시간", tone:"4성+4성 → 뚝, 뚝"},
+    {id:"n08", hanzi:"几点了", pinyin:"jǐ diǎn le", koSound:"지 띠엔 러", meaning:"몇 시예요?", category:"숫자·시간", tone:"3성+3성+가볍게 → '지 띠엔' 낮게"},
+
+    /* 카페·음식 */
+    {id:"f01", hanzi:"水", pinyin:"shuǐ", koSound:"쉐이", meaning:"물", category:"카페·음식", tone:"3성 → 낮게 깔았다가 올리기"},
+    {id:"f02", hanzi:"咖啡", pinyin:"kāfēi", koSound:"카 페이", meaning:"커피", category:"카페·음식", tone:"1성+1성 → 높게 평평"},
+    {id:"f03", hanzi:"茶", pinyin:"chá", koSound:"차", meaning:"차(티)", category:"카페·음식", tone:"2성 → 올리면서 '차'"},
+    {id:"f04", hanzi:"好吃", pinyin:"hǎochī", koSound:"하오 츠", meaning:"맛있어요", category:"카페·음식", tone:"3성+1성 → 낮게 갔다가 높게"},
+    {id:"f05", hanzi:"珍珠奶茶", pinyin:"zhēnzhū nǎichá", koSound:"쩐 쭈 나이 차", meaning:"버블티(타피오카 밀크티)", category:"카페·음식", tone:"1성+1성+3성+2성 → '나이'는 낮게, '차'는 올리기"},
+    {id:"f06", hanzi:"草莓", pinyin:"cǎoméi", koSound:"차오 메이", meaning:"딸기", category:"카페·음식", tone:"3성+2성 → '차오' 낮게, '메이' 올리기"},
+    {id:"f07", hanzi:"牛奶", pinyin:"niúnǎi", koSound:"니우 나이", meaning:"우유", category:"카페·음식", tone:"2성+3성 → 올렸다가 낮게"},
+    {id:"f08", hanzi:"我要这个", pinyin:"wǒ yào zhège", koSound:"워 야오 쩌 거", meaning:"이거 주세요", category:"카페·음식", tone:"3성+4성+4성+가볍게 → '워' 낮게"},
+
+    /* 감정·표현 */
+    {id:"e01", hanzi:"好", pinyin:"hǎo", koSound:"하오", meaning:"좋아요", category:"감정·표현", tone:"3성 → 낮게 깔았다 올리기"},
+    {id:"e02", hanzi:"可爱", pinyin:"kě'ài", koSound:"커 아이", meaning:"귀여워요", category:"감정·표현", tone:"3성+4성 → '커' 낮게, '아이' 뚝"},
+    {id:"e03", hanzi:"开心", pinyin:"kāixīn", koSound:"카이 신", meaning:"기뻐요 · 행복해요", category:"감정·표현", tone:"1성+1성 → 높게 평평"},
+    {id:"e04", hanzi:"累", pinyin:"lèi", koSound:"레이", meaning:"피곤해요", category:"감정·표현", tone:"4성 → '레이' 톡 떨어뜨리기"},
+    {id:"e05", hanzi:"不知道", pinyin:"bù zhīdào", koSound:"뿌 쯔 따오", meaning:"몰라요", category:"감정·표현", tone:"4성+1성+4성 → '쯔'만 높게"},
+    {id:"e06", hanzi:"加油", pinyin:"jiāyóu", koSound:"지아 요우", meaning:"힘내요! · 화이팅", category:"감정·표현", tone:"1성+2성 → 높게 시작해서 올리기"},
+
+    /* 쇼핑·일상 */
+    {id:"s01", hanzi:"多少钱", pinyin:"duōshao qián", koSound:"뚜어 샤오 치엔", meaning:"얼마예요?", category:"쇼핑·일상", tone:"1성+가볍게+2성 → '치엔'을 올려서"},
+    {id:"s02", hanzi:"贵", pinyin:"guì", koSound:"꾸이", meaning:"비싸요", category:"쇼핑·일상", tone:"4성 → 짧고 힘있게"},
+    {id:"s03", hanzi:"便宜", pinyin:"piányi", koSound:"피엔 이", meaning:"싸요", category:"쇼핑·일상", tone:"2성+가볍게 → '피엔' 올리기"},
+    {id:"s04", hanzi:"快递", pinyin:"kuàidì", koSound:"콰이 띠", meaning:"택배", category:"쇼핑·일상", tone:"4성+4성 → 뚝, 뚝"},
+    {id:"s05", hanzi:"买", pinyin:"mǎi", koSound:"마이", meaning:"사다 · 살게요", category:"쇼핑·일상", tone:"3성 → 낮게 깔았다 올리기"},
+    {id:"s06", hanzi:"洗手间", pinyin:"xǐshǒujiān", koSound:"시 서우 지엔", meaning:"화장실", category:"쇼핑·일상", tone:"3성+3성+1성 → 앞은 낮게"},
+    {id:"s07", hanzi:"手工", pinyin:"shǒugōng", koSound:"서우 꿍", meaning:"수작업 · 핸드메이드", category:"쇼핑·일상", tone:"3성+1성 → 낮게 갔다가 높게"}
+  ];
+
+  var CATEGORIES = ["인사·기본", "숫자·시간", "카페·음식", "감정·표현", "쇼핑·일상"];
+  var LS_MASTERED = "pckl_cn_mastered_v1";
+  var LS_CUSTOM = "pckl_cn_custom_v1";
+
+  /* =========================================================
+     2. 저장 / 상태
+     ========================================================= */
+  function load(key, fallback){
+    try{
+      var raw = localStorage.getItem(key);
+      if(!raw) return fallback;
+      var v = JSON.parse(raw);
+      return (v === null || v === undefined) ? fallback : v;
+    }catch(e){
+      return fallback;
+    }
+  }
+  function save(key, value){
+    try{ localStorage.setItem(key, JSON.stringify(value)); }catch(e){ /* 저장 불가 환경 */ }
+  }
+
+  var savedMastered = load(LS_MASTERED, []);
+  var mastered = new Set(Array.isArray(savedMastered) ? savedMastered : []);
+  var customWords = load(LS_CUSTOM, []);
+  if(!Array.isArray(customWords)) customWords = [];
+
+  var activeTab = "cards";
+  var activeCategory = "전체";
+  var onlyTodo = false;
+  var flipped = new Set();
+  var quiz = null;   /* {started, q, answered, correct, total, streak, lastId} */
+
+  /* =========================================================
+     3. 유틸
+     ========================================================= */
+  var ESC_MAP = {"&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"};
+  function esc(s){
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return ESC_MAP[c]; });
+  }
+  function shuffle(arr){
+    for(var i = arr.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+  function pick(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+
+  var toastEl = document.getElementById("toast");
+  var toastTimer = null;
+  function toast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    if(toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toastEl.classList.remove("show"); }, 2100);
+  }
+
+  function berryPop(target){
+    if(!target || !target.getBoundingClientRect) return;
+    var r = target.getBoundingClientRect();
+    var s = document.createElement("span");
+    s.className = "berry-pop";
+    s.textContent = "🍓";
+    s.style.left = (r.left + r.width / 2) + "px";
+    s.style.top = (r.top + r.height / 2) + "px";
+    document.body.appendChild(s);
+    setTimeout(function(){ if(s.parentNode) s.parentNode.removeChild(s); }, 950);
+  }
+
+  /* ---- 발음 (Speech Synthesis) ---- */
+  var speechReady = ("speechSynthesis" in window) && (typeof window.SpeechSynthesisUtterance === "function");
+  var zhVoice = null;
+
+  function refreshVoice(){
+    if(!speechReady) return;
+    try{
+      var voices = window.speechSynthesis.getVoices() || [];
+      var zh = voices.filter(function(v){ return /^zh([-_]|$)/i.test(v.lang || ""); });
+      if(!zh.length) return;
+      var cn = zh.filter(function(v){ return /[-_]CN$/i.test(v.lang || "") || /Chinese|中文|普通话|China/i.test((v.name || "") + (v.lang || "")); });
+      zhVoice = cn.length ? cn[0] : zh[0];
+    }catch(e){ /* 무시 */ }
+  }
+  if(speechReady){
+    refreshVoice();
+    try{ window.speechSynthesis.onvoiceschanged = refreshVoice; }catch(e){}
+    setTimeout(refreshVoice, 400);
+  }
+
+  function speak(text, btn){
+    if(!speechReady){
+      toast("이 브라우저는 발음을 지원하지 않아요 🥲");
+      return;
+    }
+    try{
+      var synth = window.speechSynthesis;
+      if(synth.speaking || synth.pending){ synth.cancel(); }
+      refreshVoice();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = "zh-CN";
+      u.rate = 0.85;
+      u.pitch = 1.05;
+      if(zhVoice) u.voice = zhVoice;
+      synth.speak(u);
+      if(btn){
+        btn.classList.add("playing");
+        setTimeout(function(){ btn.classList.remove("playing"); }, 620);
+      }
+      if(!zhVoice){
+        setTimeout(function(){
+          if(!synth.speaking && !synth.pending) toast("중국어 음성을 찾지 못했어요 (설정 > 손쉬운 사용 > 음성)");
+        }, 700);
+      }
+    }catch(e){
+      toast("발음을 재생하지 못했어요 🫧");
+    }
+  }
+
+  /* =========================================================
+     4. 데이터 헬퍼
+     ========================================================= */
+  function allWords(){
+    var out = [];
+    for(var i = 0; i < WORDS.length; i++){ out.push(WORDS[i]); }
+    for(var j = 0; j < customWords.length; j++){ out.push(customWords[j]); }
+    return out;
+  }
+  function visibleWords(){
+    var list = allWords();
+    if(activeCategory !== "전체"){
+      list = list.filter(function(w){ return w.category === activeCategory; });
+    }
+    if(onlyTodo){
+      list = list.filter(function(w){ return !mastered.has(w.id); });
+    }
+    return list;
+  }
+
+  /* =========================================================
+     5. 렌더링
+     ========================================================= */
+  var progressFill = document.getElementById("progressFill");
+  var progressBerry = document.getElementById("progressBerry");
+  var progressText = document.getElementById("progressText");
+  var progressPct = document.getElementById("progressPct");
+  var pillsEl = document.getElementById("pills");
+  var wordListEl = document.getElementById("wordList");
+  var cardsHint = document.getElementById("cardsHint");
+  var myWordsEl = document.getElementById("myWords");
+
+  function renderProgress(){
+    var all = allWords();
+    var total = all.length;
+    var done = 0;
+    for(var i = 0; i < all.length; i++){ if(mastered.has(all[i].id)) done++; }
+    var pct = total ? Math.round(done / total * 100) : 0;
+
+    progressFill.style.width = pct + "%";
+    progressBerry.style.left = Math.max(4, Math.min(96, pct)) + "%";
+    progressText.textContent = "외운 단어 " + done + " / 총 " + total + "개";
+    progressPct.textContent = (total > 0 && done === total) ? "완료 🍓" : pct + "%";
+  }
+
+  function renderPills(){
+    var keepScroll = pillsEl.scrollLeft;
+    var html = "";
+    var cats = ["전체"].concat(CATEGORIES);
+    for(var i = 0; i < cats.length; i++){
+      var c = cats[i];
+      html += '<button class="pill' + (c === activeCategory ? " on" : "") + '" data-act="filter" data-cat="' + esc(c) + '">' + esc(c) + "</button>";
+    }
+    html += '<button class="pill' + (onlyTodo ? " on" : "") + '" data-act="todo">' + (onlyTodo ? "✓ " : "") + "미완료만</button>";
+    pillsEl.innerHTML = html;
+    pillsEl.scrollLeft = keepScroll;
+  }
+
+  function cardHTML(w, index){
+    var done = mastered.has(w.id);
+    var isOn = flipped.has(w.id);
+    var cls = "flip" + (isOn ? " on" : "") + (done ? " done" : "");
+    var delay = index ? Math.min(index * 32, 320) : 0;
+
+    var head = '<div class="card-top">'
+      + '<span class="chip">' + esc(w.category) + (w.custom ? '</span><span class="chip mine">내 단어' : "") + "</span>"
+      + '<button class="check" data-act="master" data-id="' + esc(w.id) + '" aria-pressed="' + (done ? "true" : "false") + '" aria-label="외운 단어로 체크">✓</button>'
+      + "</div>";
+
+    var front = '<div class="face front">'
+      + head
+      + '<div class="mid"><div class="hanzi">' + esc(w.hanzi) + '</div><div class="pinyin">' + esc(w.pinyin) + "</div></div>"
+      + '<div class="card-bottom"><span class="tap-hint">톡 눌러서 뜻 보기</span>'
+      + '<button class="icon-btn" data-act="listen" data-text="' + esc(w.hanzi) + '" aria-label="발음 듣기">🔊</button></div>'
+      + "</div>";
+
+    var back = '<div class="face back">'
+      + head
+      + '<div class="mid">'
+      + '<div class="meaning">' + esc(w.meaning) + "</div>"
+      + '<div class="kosound">발음 <span>·</span> ' + esc(w.koSound || "—") + "</div>"
+      + '<div class="tone">성조 · ' + esc(w.tone || "천천히 또박또박") + "</div>"
+      + "</div>"
+      + '<div class="card-bottom"><span class="tap-hint">톡 눌러서 다시 보기</span>'
+      + '<button class="icon-btn" data-act="listen" data-text="' + esc(w.hanzi) + '" aria-label="발음 듣기">🔊</button></div>'
+      + "</div>";
+
+    return '<div class="' + cls + '" data-act="flip" data-id="' + esc(w.id) + '" style="animation-delay:' + delay + 'ms">'
+      + '<div class="flip-inner">' + front + back + "</div>"
+      + "</div>";
+  }
+
+  function renderList(animate){
+    var list = visibleWords();
+    if(!list.length){
+      var msg = onlyTodo
+        ? "<span class='em'>🍓</span><p>이 카테고리는 다 외웠어요!<br>오늘은 여기까지 해도 충분해요 🫧</p>"
+        : "<span class='em'>🍓</span><p>아직 이 카테고리에 단어가 없어요.<br>‘➕ 단어 추가’에서 하나 담아 볼까요?</p>";
+      wordListEl.innerHTML = '<div class="empty">' + msg + "</div>";
+      return;
+    }
+    var html = "";
+    for(var i = 0; i < list.length; i++){
+      html += cardHTML(list[i], animate ? i : 0);
+    }
+    wordListEl.innerHTML = html;
+    if(!animate){ wordListEl.classList.add("no-anim"); }
+    else{ wordListEl.classList.remove("no-anim"); }
+  }
+
+  function renderMyWords(){
+    if(!customWords.length){
+      myWordsEl.innerHTML = '<p class="muted">아직 직접 담은 단어가 없어요.<br>타오바오에서 사고 싶은 재료 이름도 좋아요 🍓</p>';
+      return;
+    }
+    var html = "";
+    for(var i = 0; i < customWords.length; i++){
+      var w = customWords[i];
+      html += '<div class="my-row">'
+        + "<div><span class='my-hanzi'>" + esc(w.hanzi) + "</span><span class='my-meaning'>" + esc(w.meaning) + "</span></div>"
+        + '<button class="del-btn" data-act="del" data-id="' + esc(w.id) + '">삭제</button>'
+        + "</div>";
+    }
+    myWordsEl.innerHTML = html;
+  }
+
+  function renderCategoryOptions(){
+    var sel = document.getElementById("fCategory");
+    var html = "";
+    for(var i = 0; i < CATEGORIES.length; i++){
+      html += '<option value="' + esc(CATEGORIES[i]) + '">' + esc(CATEGORIES[i]) + "</option>";
+    }
+    sel.innerHTML = html;
+  }
+
+  function renderAll(animate){
+    renderProgress();
+    renderPills();
+    renderList(animate !== false);
+    renderMyWords();
+  }
+
+  /* =========================================================
+     6. 탭
+     ========================================================= */
+  var tabButtons = document.querySelectorAll(".tab");
+  var panels = document.querySelectorAll(".panel");
+
+  function switchTab(name){
+    activeTab = name;
+    for(var i = 0; i < tabButtons.length; i++){
+      var on = tabButtons[i].getAttribute("data-tab") === name;
+      tabButtons[i].classList.toggle("active", on);
+      tabButtons[i].setAttribute("aria-selected", on ? "true" : "false");
+    }
+    for(var j = 0; j < panels.length; j++){
+      panels[j].classList.toggle("active", panels[j].id === "panel-" + name);
+    }
+    if(name === "quiz" && (!quiz || !quiz.started)){ renderQuizHome(); }
+    if(name === "add"){ renderMyWords(); }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  /* =========================================================
+     7. 퀴즈
+     ========================================================= */
+  var quizBox = document.getElementById("quizBox");
+  var qCorrectEl = document.getElementById("qCorrect");
+  var qTotalEl = document.getElementById("qTotal");
+  var qStreakEl = document.getElementById("qStreak");
+
+  var PRAISE = ["딱 맞았어요!", "완벽해요, 천재!", "이건 진짜 외운 거예요", "좋아요, 감 잡았네요", "성조까지 완벽!"];
+  var CHEER = ["괜찮아요, 한 번 더 보면 돼요", "이 단어만 다시 기억해 봐요", "틀린 게 공부예요 🫧", "거의 다 왔어요!"];
+
+  function renderScore(){
+    qCorrectEl.textContent = quiz ? quiz.correct : 0;
+    qTotalEl.textContent = quiz ? quiz.total : 0;
+    qStreakEl.textContent = "🔥 " + (quiz ? quiz.streak : 0);
+  }
+
+  function renderQuizHome(){
+    quizBox.innerHTML = '<div class="quiz-start">'
+      + '<div class="quiz-emoji">🍓</div>'
+      + "<h3>가볍게 4지선다 복습</h3>"
+      + "<p>뜻 · 한자 · 병음을 골고루 물어볼게요.<br>틀려도 괜찮으니까 편하게 눌러 주세요 🫧</p>"
+      + '<button class="primary-btn" data-act="quiz-start">시작하기</button>'
+      + "</div>";
+  }
+
+  function startQuiz(){
+    quiz = { started:true, q:null, answered:false, correct:0, total:0, streak:0, lastId:null };
+    renderScore();
+    nextQuestion();
+  }
+
+  function nextQuestion(){
+    var pool = allWords();
+    if(pool.length < 4){
+      quizBox.innerHTML = '<div class="quiz-start"><div class="quiz-emoji">🫧</div>'
+        + "<h3>단어가 조금 더 필요해요</h3>"
+        + "<p>퀴즈는 단어 4개부터 만들 수 있어요.<br>‘➕ 단어 추가’에서 더 담아 주세요!</p></div>";
+      return;
+    }
+
+    var target = pool[Math.floor(Math.random() * pool.length)];
+    if(pool.length > 1 && quiz && quiz.lastId === target.id){
+      target = pool[(pool.indexOf(target) + 1) % pool.length];
+    }
+
+    var r = Math.random();
+    var type = r < 0.4 ? "meaning" : (r < 0.75 ? "hanzi" : "pinyin");
+    var key = type === "meaning" ? "meaning" : (type === "hanzi" ? "hanzi" : "pinyin");
+    var correctText = target[key] || "";
+
+    var seen = {};
+    seen[correctText] = true;
+    var others = [];
+    var shuffledPool = shuffle(pool.slice());
+    for(var i = 0; i < shuffledPool.length; i++){
+      var v = shuffledPool[i][key];
+      if(v && !seen[v]){
+        seen[v] = true;
+        others.push(v);
+        if(others.length === 3) break;
+      }
+    }
+
+    var options = [{ text: correctText, ok: true }];
+    for(var j = 0; j < others.length; j++){ options.push({ text: others[j], ok: false }); }
+    shuffle(options);
+
+    quiz.q = { type: type, target: target, options: options };
+    quiz.answered = false;
+    quiz.lastId = target.id;
+    renderQuestion();
+  }
+
+  function renderQuestion(){
+    var q = quiz.q;
+    var label, prompt;
+
+    if(q.type === "meaning"){
+      label = "이 단어의 뜻은?";
+      prompt = '<div class="q-hanzi">' + esc(q.target.hanzi) + '</div>'
+        + '<div class="q-pinyin">' + esc(q.target.pinyin) + "</div>"
+        + '<button class="q-listen" data-act="quiz-listen" data-text="' + esc(q.target.hanzi) + '">🔊 발음 듣기</button>';
+    }else if(q.type === "hanzi"){
+      label = "이 뜻의 중국어는?";
+      prompt = '<div class="q-meaning">' + esc(q.target.meaning) + "</div>";
+    }else{
+      label = "이 단어의 병음은?";
+      prompt = '<div class="q-hanzi">' + esc(q.target.hanzi) + "</div>";
+    }
+
+    var opts = "";
+    for(var i = 0; i < q.options.length; i++){
+      opts += '<button class="opt" data-act="answer" data-idx="' + i + '">'
+        + '<span class="num">' + (i + 1) + "</span>"
+        + "<span>" + esc(q.options[i].text) + "</span>"
+        + "</button>";
+    }
+
+    quizBox.innerHTML = '<div class="quiz-card">'
+      + '<p class="q-label">' + label + "</p>"
+      + prompt
+      + "</div>"
+      + '<div class="options" id="qOptions">' + opts + "</div>"
+      + '<div id="qFeedback"></div>';
+  }
+
+  function answerQuestion(idx){
+    if(!quiz || !quiz.q || quiz.answered) return;
+    var q = quiz.q;
+    var chosen = q.options[idx];
+    if(!chosen) return;
+
+    quiz.answered = true;
+    var ok = !!chosen.ok;
+    quiz.total++;
+    if(ok){ quiz.correct++; quiz.streak++; }
+    else{ quiz.streak = 0; }
+
+    var btns = document.querySelectorAll("#qOptions .opt");
+    for(var i = 0; i < btns.length; i++){
+      btns[i].classList.add("locked");
+      if(q.options[i].ok) btns[i].classList.add("correct");
+      else if(i === idx) btns[i].classList.add("wrong");
+    }
+    renderScore();
+
+    var fb = document.getElementById("qFeedback");
+    if(!fb) return;
+
+    var msg = pick(ok ? PRAISE : CHEER);
+    var already = mastered.has(q.target.id);
+    var masterBtn = "";
+    if(ok){
+      masterBtn = already
+        ? '<button class="mini-btn done" disabled>✓ 외운 단어</button>'
+        : '<button class="mini-btn" data-act="quiz-master" data-id="' + esc(q.target.id) + '">✓ 외운 단어에 넣기</button>';
+    }
+
+    fb.innerHTML = '<div class="fb ' + (ok ? "good" : "bad") + '">'
+      + '<div class="fb-msg">' + (ok ? "🍓 " : "🫧 ") + esc(msg) + "</div>"
+      + '<div class="fb-answer">' + esc(q.target.hanzi) + " · " + esc(q.target.pinyin) + " — " + esc(q.target.meaning) + "</div>"
+      + '<div class="fb-row">' + masterBtn
+      + '<button class="primary-btn small" data-act="quiz-next">다음 문제 →</button>'
+      + "</div></div>";
+  }
+
+  /* =========================================================
+     8. 단어 추가
+     ========================================================= */
+  var addForm = document.getElementById("addForm");
+  var fHanzi = document.getElementById("fHanzi");
+  var fPinyin = document.getElementById("fPinyin");
+  var fKo = document.getElementById("fKo");
+  var fMeaning = document.getElementById("fMeaning");
+  var fCategory = document.getElementById("fCategory");
+
+  addForm.addEventListener("submit", function(e){
+    e.preventDefault();
+    var hanzi = fHanzi.value.trim();
+    var meaning = fMeaning.value.trim();
+
+    if(!hanzi){ toast("한자를 적어 주세요 🍓"); fHanzi.focus(); return; }
+    if(!meaning){ toast("뜻을 적어 주세요 🍓"); fMeaning.focus(); return; }
+
+    var dup = allWords().some(function(w){ return w.hanzi === hanzi; });
+    if(dup){ toast("이미 있는 단어예요! 카드에서 찾아볼까요? 🫧"); return; }
+
+    var word = {
+      id: "c" + Date.now() + Math.floor(Math.random() * 1000),
+      hanzi: hanzi,
+      pinyin: fPinyin.value.trim(),
+      koSound: fKo.value.trim(),
+      meaning: meaning,
+      category: fCategory.value || CATEGORIES[0],
+      tone: "내가 담은 단어 · 천천히 또박또박",
+      custom: true
+    };
+
+    customWords.push(word);
+    save(LS_CUSTOM, customWords);
+
+    addForm.reset();
+    activeCategory = "전체";
+    onlyTodo = false;
+    renderAll(false);
+    renderCategoryOptions();
+    fCategory.value = word.category;
+
+    toast("🍓 단어를 담았어요! 단어 카드에서 확인해요");
+    var row = myWordsEl.querySelector(".my-row");
+    if(row) berryPop(row);
+  });
+
+  document.getElementById("resetBtn").addEventListener("click", function(){
+    if(!mastered.size){ toast("아직 지울 기록이 없어요 🫧"); return; }
+    if(!window.confirm("외운 단어 체크를 모두 지울까요?\n(직접 담은 단어는 그대로 남아요)")) return;
+    mastered.clear();
+    save(LS_MASTERED, []);
+    renderAll(false);
+    toast("외운 기록을 초기화했어요");
+  });
+
+  /* =========================================================
+     9. 클릭 위임
+     ========================================================= */
+  document.addEventListener("click", function(e){
+    var tabBtn = e.target.closest ? e.target.closest(".tab") : null;
+    if(tabBtn){
+      var tabName = tabBtn.getAttribute("data-tab");
+      if(tabName && tabName !== activeTab) switchTab(tabName);
+      return;
+    }
+
+    var el = e.target.closest ? e.target.closest("[data-act]") : null;
+    if(!el) return;
+    var act = el.getAttribute("data-act");
+
+    if(act === "flip"){
+      var id = el.getAttribute("data-id");
+      if(!id) return;
+      if(flipped.has(id)){ flipped.delete(id); el.classList.remove("on"); }
+      else{ flipped.add(id); el.classList.add("on"); }
+      return;
+    }
+
+    if(act === "master"){
+      e.stopPropagation();
+      var wid = el.getAttribute("data-id");
+      if(!wid) return;
+      var card = el.closest(".flip");
+
+      if(mastered.has(wid)){
+        mastered.delete(wid);
+        if(card) card.classList.remove("done");
+        el.setAttribute("aria-pressed", "false");
+        toast("체크를 풀었어요 · 다시 볼 단어 🫧");
+      }else{
+        mastered.add(wid);
+        if(card) card.classList.add("done");
+        el.setAttribute("aria-pressed", "true");
+        berryPop(el);
+        var all = allWords();
+        var doneCount = 0;
+        for(var i = 0; i < all.length; i++){ if(mastered.has(all[i].id)) doneCount++; }
+        toast(doneCount === all.length ? "🍓 전부 다 외웠어요! 정말 대단해요" : "외운 단어 +1 🍓");
+      }
+      save(LS_MASTERED, Array.from(mastered));
+      renderProgress();
+      if(onlyTodo){
+        setTimeout(function(){ renderList(false); }, 380);
+      }
+      return;
+    }
+
+    if(act === "listen" || act === "quiz-listen"){
+      e.stopPropagation();
+      speak(el.getAttribute("data-text") || "", el);
+      return;
+    }
+
+    if(act === "filter"){
+      var cat = el.getAttribute("data-cat") || "전체";
+      activeCategory = cat;
+      renderPills();
+      renderList(true);
+      cardsHint.textContent = cat === "전체" ? "카드를 톡 누르면 뜻이 보여요 🫧" : cat + " · " + visibleWords().length + "개";
+      return;
+    }
+
+    if(act === "todo"){
+      onlyTodo = !onlyTodo;
+      renderPills();
+      renderList(true);
+      cardsHint.textContent = onlyTodo ? "아직 안 외운 단어만 모아 봤어요 🍓" : "카드를 톡 누르면 뜻이 보여요 🫧";
+      return;
+    }
+
+    if(act === "quiz-start"){
+      startQuiz();
+      return;
+    }
+
+    if(act === "answer"){
+      answerQuestion(parseInt(el.getAttribute("data-idx"), 10));
+      return;
+    }
+
+    if(act === "quiz-next"){
+      nextQuestion();
+      return;
+    }
+
+    if(act === "quiz-master"){
+      var qid = el.getAttribute("data-id");
+      if(!qid) return;
+      mastered.add(qid);
+      save(LS_MASTERED, Array.from(mastered));
+      el.classList.add("done");
+      el.textContent = "✓ 외운 단어";
+      renderProgress();
+      berryPop(el);
+      toast("외운 단어에 넣었어요 🍓");
+      return;
+    }
+
+    if(act === "del"){
+      var did = el.getAttribute("data-id");
+      var target = null;
+      for(var k = 0; k < customWords.length; k++){
+        if(customWords[k].id === did){ target = customWords[k]; break; }
+      }
+      if(!target) return;
+      if(!window.confirm("'" + target.hanzi + "' 단어를 지울까요?")) return;
+      customWords = customWords.filter(function(w){ return w.id !== did; });
+      save(LS_CUSTOM, customWords);
+      if(mastered.has(did)){
+        mastered.delete(did);
+        save(LS_MASTERED, Array.from(mastered));
+      }
+      flipped.delete(did);
+      renderAll(false);
+      toast("단어를 지웠어요");
+      return;
+    }
+  });
+
+  /* =========================================================
+     10. 시작
+     ========================================================= */
+  renderCategoryOptions();
+  /* JS가 실제로 돌아간다는 표시 → 정적 미리보기용 CSS가 꺼지고 인터랙티브 모드로 전환 */
+  document.body.classList.add("js-ready");
+  renderAll(true);
+  renderScore();
+  renderQuizHome();
+
+  if(window.matchMedia){
+    try{
+      var mq = window.matchMedia("(prefers-color-scheme: dark)");
+      if(mq && mq.addEventListener){ mq.addEventListener("change", refreshVoice); }
+    }catch(e){}
+  }
+  document.addEventListener("visibilitychange", function(){
+    if(document.visibilityState === "visible") refreshVoice();
+  });
+})();
+</script>
+</body>
+</html>
