@@ -11,3 +11,7 @@
 https://damarimom.github.io/cute-chinese-vocab/
 
 `index.html` 한 파일로 이루어진 정적 페이지입니다.
+
+## 배포 메모
+
+GitHub Pages가 `gh-pages` 브랜치 루트에서 배포돼요. 내용을 고칠 때는 `main`과 `gh-pages` 두 브랜치에 모두 올려 주세요.
