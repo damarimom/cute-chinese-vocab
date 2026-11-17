@@ -9,7 +9,8 @@
 <meta name="apple-mobile-web-app-title" content="말랑 중국어">
 <meta name="theme-color" content="#FFF5F8">
 <title>🍓 삐클의 말랑 중국어 단어장</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🍓%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
 <style>
   :root{
     --bg:#FFF5F8;
@@ -258,12 +259,12 @@
   }
   body:not(.js-ready) .face{
     position:static;inset:auto;overflow:visible;
-    padding:0;border:none;box-shadow:none;background:none;
+    padding:0;border:none;box-shadow:none;background:none;border-radius:0;
     transform:none !important;-webkit-transform:none !important;
     backface-visibility:visible;-webkit-backface-visibility:visible;
   }
   body:not(.js-ready) .face.back{
-    margin-top:11px;padding-top:11px;
+    margin-top:12px;padding-top:12px;
     border-top:1.5px dashed #FFC7D9;
   }
   body:not(.js-ready) .face .card-bottom,
@@ -1641,11 +1642,11 @@
      10. 시작
      ========================================================= */
   renderCategoryOptions();
-  /* JS가 실제로 돌아간다는 표시 → 정적 미리보기용 CSS가 꺼지고 인터랙티브 모드로 전환 */
-  document.body.classList.add("js-ready");
   renderAll(true);
   renderScore();
   renderQuizHome();
+  /* JS가 실제로 돌아간다는 표시 → 정적 미리보기용 CSS가 꺼지고 인터랙티브 모드로 전환 */
+  document.body.classList.add("js-ready");
 
   if(window.matchMedia){
     try{
