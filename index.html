@@ -93,7 +93,7 @@
 
   /* ---------- word cards ---------- */
   .word-list{display:flex;flex-direction:column;gap:13px;margin-top:13px;}
-  .flip{position:relative;height:178px;perspective:1200px;cursor:pointer;animation:popIn .42s cubic-bezier(.3,1.2,.5,1) backwards;-webkit-tap-highlight-color:transparent;}
+  .flip{position:relative;height:204px;perspective:1200px;cursor:pointer;animation:popIn .42s cubic-bezier(.3,1.2,.5,1) backwards;-webkit-tap-highlight-color:transparent;}
   .no-anim .flip{animation:none;}
   @keyframes popIn{from{opacity:0;transform:translateY(12px) scale(.975);}to{opacity:1;transform:none;}}
   .flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.3,.9,.3,1);will-change:transform;}
@@ -111,8 +111,10 @@
   .check:active{transform:scale(.88);}
   .flip.done .check{background:linear-gradient(135deg,#8CEBCB,#4ECFA6);border-color:transparent;color:#fff;box-shadow:0 4px 10px rgba(78,207,166,.35);}
 
-  .mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center;min-height:0;}
+  .mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-align:center;min-height:0;}
+  .emoji{font-size:31px;line-height:1;margin-bottom:2px;filter:drop-shadow(0 3px 6px rgba(255,140,170,.2));}
   .hanzi{font-size:39px;font-weight:700;letter-spacing:.04em;line-height:1.15;font-family:"PingFang SC","Hiragino Sans GB","Noto Sans SC",-apple-system,sans-serif;}
+  .hanzi.compact{font-size:29px;letter-spacing:.02em;}
   .pinyin{font-size:14.5px;font-weight:700;color:#E8628C;letter-spacing:.01em;}
   .meaning{font-size:18px;font-weight:800;line-height:1.3;}
   .kosound{font-size:12.5px;font-weight:700;color:#8A5A6B;margin-top:5px;}
@@ -140,6 +142,7 @@
   .quiz-card{background:linear-gradient(155deg,#FFFFFF,#FFEEF4);border:1.5px solid #fff;border-radius:var(--radius);padding:22px 18px 18px;text-align:center;box-shadow:0 10px 22px rgba(255,140,170,.16);animation:popIn .34s ease both;}
   .q-label{margin:0 0 12px;font-size:11px;font-weight:800;color:#C4718D;letter-spacing:.08em;}
   .q-hanzi{font-size:42px;font-weight:700;letter-spacing:.04em;line-height:1.2;font-family:"PingFang SC","Hiragino Sans GB","Noto Sans SC",-apple-system,sans-serif;}
+  .q-emoji{font-size:40px;line-height:1;margin-bottom:6px;filter:drop-shadow(0 3px 8px rgba(255,140,170,.2));}
   .q-meaning{font-size:22px;font-weight:800;line-height:1.35;}
   .q-pinyin{font-size:13.5px;font-weight:700;color:#E8628C;margin-top:5px;}
   .q-listen{margin:12px auto 0;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:99px;background:#fff;box-shadow:0 4px 12px rgba(255,120,160,.2);font-size:11.5px;font-weight:800;color:#C4718D;}
@@ -207,8 +210,10 @@
   @media (max-width:360px){
     h1{font-size:19.5px;}
     .tab{font-size:11.5px;padding:10px 2px;}
-    .hanzi{font-size:35px;}
-    .flip{height:170px;}
+    .hanzi{font-size:33px;}
+    .hanzi.compact{font-size:25px;}
+    .emoji{font-size:27px;}
+    .flip{height:196px;}
     .q-hanzi{font-size:38px;}
   }
   /* ============================================================
@@ -271,7 +276,9 @@
   body:not(.js-ready) .face.back .card-top{display:none !important;}
   body:not(.js-ready) .mid{flex:none;justify-content:flex-start;gap:2px;min-height:0;}
   body:not(.js-ready) .face.front .mid{padding-top:2px;}
+  body:not(.js-ready) .emoji{font-size:33px;margin-bottom:7px;}
   body:not(.js-ready) .hanzi{font-size:33px;line-height:1.2;}
+  body:not(.js-ready) .hanzi.compact{font-size:26px;}
   body:not(.js-ready) .pinyin{font-size:13.5px;}
   body:not(.js-ready) .meaning{font-size:16.5px;}
   body:not(.js-ready) .kosound{margin-top:6px;font-size:12px;}
@@ -299,7 +306,7 @@
   <header class="hero">
     <p class="eyebrow">혜빈님 전용 · 왕초보 성조부터 🍓</p>
     <h1>🍓 삐클의 <span class="em">말랑 중국어</span> 단어장</h1>
-    <p class="sub"><span class="only-js">카드를 톡 누르면 뜻이 보이고, 발음도 들려드려요.</span><span class="only-static">37개 단어의 뜻 · 한국어 발음 · 성조 팁을 카드마다 펼쳐 두었어요.</span></p>
+    <p class="sub">가나다라처럼 성모·운모부터 · 그림으로 익히는 일상 기초 낱말 ♥</p>
 
     <div class="progress-card">
       <div class="progress-track">
@@ -323,597 +330,885 @@
     <!-- 단어 카드 -->
     <section class="panel active" id="panel-cards" role="tabpanel">
       <div class="pills" id="pills"></div>
-      <div class="static-banner only-static">🍓 총 <b>37</b>개 단어 · 뜻 · 한국어 발음 · 성조 팁까지</div>
+      <div class="static-banner only-static">🍓 총 <b>55</b>개 · ㄱㄴㄷ 발음 12 + 일상 그림 낱말 43</div>
       <p class="hint" id="cardsHint"><span class="only-js">카드를 톡 누르면 뜻이 보여요 🫧</span><span class="only-static">🍓 위에서부터 천천히 읽어 보세요</span></p>
       <div class="word-list" id="wordList">
-        <div class="flip" data-id="g01">
+        <div class="flip" data-id="p01">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">인사·기본</span></div>
-              <div class="mid"><div class="hanzi">你好</div><div class="pinyin">nǐ hǎo</div></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🎵</div><div class="hanzi">ā</div><div class="pinyin">1성 · 높고 평평</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
               <div class="mid">
-                <div class="meaning">안녕하세요</div>
-                <div class="kosound">발음 <span>·</span> 니 하오</div>
-                <div class="tone">성조 · 3성+3성 → 앞 글자는 2성처럼 올려서 &#x27;니 하오&#x27;</div>
+                <div class="meaning">높게 평평하게 「아~」</div>
+                <div class="kosound">발음 <span>·</span> 아~</div>
+                <div class="tone">성조 · 처음부터 끝까지 같은 높이로 길게. 「妈 mā」</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="g02">
+        <div class="flip" data-id="p02">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">인사·기본</span></div>
-              <div class="mid"><div class="hanzi">谢谢</div><div class="pinyin">xièxie</div></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">📈</div><div class="hanzi">á</div><div class="pinyin">2성 · 올라가기</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
               <div class="mid">
-                <div class="meaning">고마워요</div>
-                <div class="kosound">발음 <span>·</span> 시에 시에</div>
-                <div class="tone">성조 · 4성+가볍게 → &#x27;시에&#x27;를 또박또박 짧게</div>
+                <div class="meaning">아래서 위로 「아?」</div>
+                <div class="kosound">발음 <span>·</span> 아?</div>
+                <div class="tone">성조 · 질문하듯 끝을 쭉 올려요. 「麻 má」</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="g03">
+        <div class="flip" data-id="p03">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">인사·기본</span></div>
-              <div class="mid"><div class="hanzi">不客气</div><div class="pinyin">bú kèqi</div></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">📉</div><div class="hanzi">ǎ</div><div class="pinyin">3성 · 내려갔다 올리기</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
               <div class="mid">
-                <div class="meaning">천만에요</div>
-                <div class="kosound">발음 <span>·</span> 뿌 커 치</div>
-                <div class="tone">성조 · 不는 4성 앞에서 2성 → &#x27;뿌&#x27;</div>
+                <div class="meaning">낮게 깔았다 올리기 「아~」</div>
+                <div class="kosound">발음 <span>·</span> 아~</div>
+                <div class="tone">성조 · 가장 낮게 깔았다가 끝만 살짝 올려요. 「马 mǎ」</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="g04">
+        <div class="flip" data-id="p04">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">인사·기본</span></div>
-              <div class="mid"><div class="hanzi">再见</div><div class="pinyin">zàijiàn</div></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">⚡</div><div class="hanzi">à</div><div class="pinyin">4성 · 뚝 떨어뜨리기</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
               <div class="mid">
-                <div class="meaning">안녕히 가세요 · 또 봐요</div>
-                <div class="kosound">발음 <span>·</span> 짜이 지엔</div>
-                <div class="tone">성조 · 4성+4성 → 힘 있게 뚝뚝</div>
+                <div class="meaning">위에서 아래로 뚝 「아!」</div>
+                <div class="kosound">발음 <span>·</span> 아!</div>
+                <div class="tone">성조 · 짧고 힘있게 아래로 떨어뜨려요. 「骂 mà」</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="g05">
+        <div class="flip" data-id="p05">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">인사·기본</span></div>
-              <div class="mid"><div class="hanzi">对不起</div><div class="pinyin">duìbuqǐ</div></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">👄</div><div class="hanzi compact">b p m f</div><div class="pinyin">bo po mo fo</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
               <div class="mid">
-                <div class="meaning">미안해요</div>
-                <div class="kosound">발음 <span>·</span> 뚜이 뿌 치</div>
-                <div class="tone">성조 · 4성+가볍게+3성 → 끝을 올려요</div>
+                <div class="meaning">뽀 · 포 · 모 · 포</div>
+                <div class="kosound">발음 <span>·</span> bo po mo fo</div>
+                <div class="tone">소리 · 두 입술을 붙였다 떼며 내요. f는 윗니를 아랫입술에 붙여요.</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="g06">
+        <div class="flip" data-id="p06">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">인사·기본</span></div>
-              <div class="mid"><div class="hanzi">没关系</div><div class="pinyin">méi guānxi</div></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">👅</div><div class="hanzi compact">d t n l</div><div class="pinyin">de te ne le</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
               <div class="mid">
-                <div class="meaning">괜찮아요</div>
-                <div class="kosound">발음 <span>·</span> 메이 꾸안 시</div>
-                <div class="tone">성조 · 2성+1성+가볍게 → &#x27;메이&#x27;를 올려서</div>
+                <div class="meaning">더 · 터 · 너 · 러</div>
+                <div class="kosound">발음 <span>·</span> de te ne le</div>
+                <div class="tone">소리 · 혀끝을 윗잇몸에 대고 떼며 내요.</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="g07">
+        <div class="flip" data-id="p07">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">인사·기본</span></div>
-              <div class="mid"><div class="hanzi">请问</div><div class="pinyin">qǐngwèn</div></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🗣️</div><div class="hanzi">g k h</div><div class="pinyin">ge ke he</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
               <div class="mid">
-                <div class="meaning">실례합니다 · 여쭤볼게요</div>
-                <div class="kosound">발음 <span>·</span> 칭 원</div>
-                <div class="tone">성조 · 3성+4성 → 낮게 깔았다가 올리기</div>
+                <div class="meaning">거 · 커 · 허</div>
+                <div class="kosound">발음 <span>·</span> ge ke he</div>
+                <div class="tone">소리 · 목구멍 뒤쪽에서 나는 소리. h는 숨을 「하」 하고 내요.</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="g08">
+        <div class="flip" data-id="p08">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">인사·기본</span></div>
-              <div class="mid"><div class="hanzi">是</div><div class="pinyin">shì</div></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">✨</div><div class="hanzi">j q x</div><div class="pinyin">ji qi xi</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">인사·기본</span></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
               <div class="mid">
-                <div class="meaning">~이다 · 네</div>
-                <div class="kosound">발음 <span>·</span> 스</div>
-                <div class="tone">성조 · 4성 → 아주 짧게 뚝</div>
+                <div class="meaning">지 · 치 · 시</div>
+                <div class="kosound">발음 <span>·</span> ji qi xi</div>
+                <div class="tone">소리 · 혀를 윗잇몸에 가볍게 붙였다 떼며 내요.</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="n01">
+        <div class="flip" data-id="p09">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">숫자·시간</span></div>
-              <div class="mid"><div class="hanzi">一</div><div class="pinyin">yī</div></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🌀</div><div class="hanzi compact">zh ch sh r</div><div class="pinyin">zhi chi shi ri</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
               <div class="mid">
-                <div class="meaning">하나 · 1</div>
-                <div class="kosound">발음 <span>·</span> 이</div>
-                <div class="tone">성조 · 1성 → 높고 평평하게 길게</div>
+                <div class="meaning">즈 · 츠 · 스 · 르</div>
+                <div class="kosound">발음 <span>·</span> zhi chi shi ri</div>
+                <div class="tone">소리 · 혀를 살짝 말아 올리고 내요. r은 「르」에 가깝게.</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="n02">
+        <div class="flip" data-id="p10">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">숫자·시간</span></div>
-              <div class="mid"><div class="hanzi">二</div><div class="pinyin">èr</div></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">💨</div><div class="hanzi">z c s</div><div class="pinyin">zi ci si</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
               <div class="mid">
-                <div class="meaning">둘 · 2</div>
-                <div class="kosound">발음 <span>·</span> 얼</div>
-                <div class="tone">성조 · 4성 → &#x27;얼&#x27;을 톡 떨어뜨리기</div>
+                <div class="meaning">쯔 · 츠 · 쓰</div>
+                <div class="kosound">발음 <span>·</span> zi ci si</div>
+                <div class="tone">소리 · 혀를 펴고 앞니 뒤에서 내요. 위의 5번과 꼭 비교해 보세요.</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="n03">
+        <div class="flip" data-id="p11">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">숫자·시간</span></div>
-              <div class="mid"><div class="hanzi">三</div><div class="pinyin">sān</div></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">⭕</div><div class="hanzi">a o e</div><div class="pinyin">a o e</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
               <div class="mid">
-                <div class="meaning">셋 · 3</div>
-                <div class="kosound">발음 <span>·</span> 싼</div>
-                <div class="tone">성조 · 1성 → 높은 음을 쭉 유지</div>
+                <div class="meaning">아 · 오 · 으어</div>
+                <div class="kosound">발음 <span>·</span> a o e</div>
+                <div class="tone">소리 · 입을 크게 벌려 「啊 a」, 동그랗게 「哦 o」, 「鹅 e」.</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="n04">
+        <div class="flip" data-id="p12">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">숫자·시간</span></div>
-              <div class="mid"><div class="hanzi">十</div><div class="pinyin">shí</div></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🫧</div><div class="hanzi">i u ü</div><div class="pinyin">yi wu yu</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="card-top"><span class="chip">ㄱㄴㄷ 기초 발음</span></div>
               <div class="mid">
-                <div class="meaning">열 · 10</div>
-                <div class="kosound">발음 <span>·</span> 스</div>
-                <div class="tone">성조 · 2성 → 끝을 올려 올려</div>
+                <div class="meaning">이 · 우 · 위</div>
+                <div class="kosound">발음 <span>·</span> yi wu yu</div>
+                <div class="tone">소리 · ü는 입을 「우」 모양으로 모으고 「이」 소리를 내요.</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="n05">
+        <div class="flip" data-id="b01">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">숫자·시간</span></div>
-              <div class="mid"><div class="hanzi">今天</div><div class="pinyin">jīntiān</div></div>
+              <div class="card-top"><span class="chip">사람·호칭</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🙋</div><div class="hanzi">我</div><div class="pinyin">wǒ</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="card-top"><span class="chip">사람·호칭</span></div>
               <div class="mid">
-                <div class="meaning">오늘</div>
-                <div class="kosound">발음 <span>·</span> 찐 티엔</div>
-                <div class="tone">성조 · 1성+1성 → 둘 다 높게 평평</div>
+                <div class="meaning">나</div>
+                <div class="kosound">발음 <span>·</span> 워</div>
+                <div class="tone">성조 · 3성 → 낮게 깔았다 올리기</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="n06">
+        <div class="flip" data-id="b02">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">숫자·시간</span></div>
-              <div class="mid"><div class="hanzi">明天</div><div class="pinyin">míngtiān</div></div>
+              <div class="card-top"><span class="chip">사람·호칭</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">👉</div><div class="hanzi">你</div><div class="pinyin">nǐ</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="card-top"><span class="chip">사람·호칭</span></div>
               <div class="mid">
-                <div class="meaning">내일</div>
-                <div class="kosound">발음 <span>·</span> 밍 티엔</div>
-                <div class="tone">성조 · 2성+1성 → 올렸다가 그대로</div>
+                <div class="meaning">너</div>
+                <div class="kosound">발음 <span>·</span> 니</div>
+                <div class="tone">성조 · 3성 → 낮게 깔았다 올리기</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="n07">
+        <div class="flip" data-id="b03">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">숫자·시간</span></div>
-              <div class="mid"><div class="hanzi">现在</div><div class="pinyin">xiànzài</div></div>
+              <div class="card-top"><span class="chip">사람·호칭</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🫂</div><div class="hanzi">我们</div><div class="pinyin">wǒmen</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="card-top"><span class="chip">사람·호칭</span></div>
               <div class="mid">
-                <div class="meaning">지금</div>
-                <div class="kosound">발음 <span>·</span> 시엔 짜이</div>
-                <div class="tone">성조 · 4성+4성 → 뚝, 뚝</div>
+                <div class="meaning">우리</div>
+                <div class="kosound">발음 <span>·</span> 워먼</div>
+                <div class="tone">성조 · 3성+가볍게 → 「워」를 낮게</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="n08">
+        <div class="flip" data-id="b04">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">숫자·시간</span></div>
-              <div class="mid"><div class="hanzi">几点了</div><div class="pinyin">jǐ diǎn le</div></div>
+              <div class="card-top"><span class="chip">사람·호칭</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">👩</div><div class="hanzi">妈妈</div><div class="pinyin">māma</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">숫자·시간</span></div>
+              <div class="card-top"><span class="chip">사람·호칭</span></div>
               <div class="mid">
-                <div class="meaning">몇 시예요?</div>
-                <div class="kosound">발음 <span>·</span> 지 띠엔 러</div>
-                <div class="tone">성조 · 3성+3성+가볍게 → &#x27;지 띠엔&#x27; 낮게</div>
+                <div class="meaning">엄마</div>
+                <div class="kosound">발음 <span>·</span> 마마</div>
+                <div class="tone">성조 · 1성+가볍게 → 두 번째는 짧게</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="f01">
+        <div class="flip" data-id="b05">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">카페·음식</span></div>
-              <div class="mid"><div class="hanzi">水</div><div class="pinyin">shuǐ</div></div>
+              <div class="card-top"><span class="chip">사람·호칭</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">👨</div><div class="hanzi">爸爸</div><div class="pinyin">bàba</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="card-top"><span class="chip">사람·호칭</span></div>
+              <div class="mid">
+                <div class="meaning">아빠</div>
+                <div class="kosound">발음 <span>·</span> 빠바</div>
+                <div class="tone">성조 · 4성+가볍게 → 「빠」는 뚝</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b06">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">사람·호칭</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🤝</div><div class="hanzi">朋友</div><div class="pinyin">péngyou</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">사람·호칭</span></div>
+              <div class="mid">
+                <div class="meaning">친구</div>
+                <div class="kosound">발음 <span>·</span> 펑요우</div>
+                <div class="tone">성조 · 2성+가볍게 → 「펑」을 올려서</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b07">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">사람·호칭</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">👩‍🏫</div><div class="hanzi">老师</div><div class="pinyin">lǎoshī</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">사람·호칭</span></div>
+              <div class="mid">
+                <div class="meaning">선생님</div>
+                <div class="kosound">발음 <span>·</span> 라오스</div>
+                <div class="tone">성조 · 3성+1성 → 「라오」 낮게, 「스」 높게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b08">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">사람·호칭</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🙌</div><div class="hanzi">大家</div><div class="pinyin">dàjiā</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">사람·호칭</span></div>
+              <div class="mid">
+                <div class="meaning">모두</div>
+                <div class="kosound">발음 <span>·</span> 따지아</div>
+                <div class="tone">성조 · 4성+1성 → 딱, 높게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b09">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">몸·감각</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">👀</div><div class="hanzi">眼睛</div><div class="pinyin">yǎnjing</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">몸·감각</span></div>
+              <div class="mid">
+                <div class="meaning">눈</div>
+                <div class="kosound">발음 <span>·</span> 옌징</div>
+                <div class="tone">성조 · 3성+가볍게 → 「옌」을 낮게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b10">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">몸·감각</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">👃</div><div class="hanzi">鼻子</div><div class="pinyin">bízi</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">몸·감각</span></div>
+              <div class="mid">
+                <div class="meaning">코</div>
+                <div class="kosound">발음 <span>·</span> 비즈</div>
+                <div class="tone">성조 · 2성+가볍게 → 「비」를 올려서</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b11">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">몸·감각</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">👄</div><div class="hanzi">嘴巴</div><div class="pinyin">zuǐba</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">몸·감각</span></div>
+              <div class="mid">
+                <div class="meaning">입</div>
+                <div class="kosound">발음 <span>·</span> 쭈이바</div>
+                <div class="tone">성조 · 3성+가볍게 → 「쭈이」 낮게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b12">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">몸·감각</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">👂</div><div class="hanzi">耳朵</div><div class="pinyin">ěrduo</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">몸·감각</span></div>
+              <div class="mid">
+                <div class="meaning">귀</div>
+                <div class="kosound">발음 <span>·</span> 얼뚜오</div>
+                <div class="tone">성조 · 3성+가볍게 → 「얼」을 낮게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b13">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">몸·감각</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">✋</div><div class="hanzi">手</div><div class="pinyin">shǒu</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">몸·감각</span></div>
+              <div class="mid">
+                <div class="meaning">손</div>
+                <div class="kosound">발음 <span>·</span> 서우</div>
+                <div class="tone">성조 · 3성 → 낮게 깔았다 올리기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b14">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">몸·감각</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🦶</div><div class="hanzi">脚</div><div class="pinyin">jiǎo</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">몸·감각</span></div>
+              <div class="mid">
+                <div class="meaning">발</div>
+                <div class="kosound">발음 <span>·</span> 지아오</div>
+                <div class="tone">성조 · 3성 → 낮게 깔았다 올리기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b15">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">몸·감각</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🙂</div><div class="hanzi">头</div><div class="pinyin">tóu</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">몸·감각</span></div>
+              <div class="mid">
+                <div class="meaning">머리</div>
+                <div class="kosound">발음 <span>·</span> 토우</div>
+                <div class="tone">성조 · 2성 → 끝을 올려서</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b16">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">몸·감각</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">💗</div><div class="hanzi">心</div><div class="pinyin">xīn</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">몸·감각</span></div>
+              <div class="mid">
+                <div class="meaning">마음</div>
+                <div class="kosound">발음 <span>·</span> 신</div>
+                <div class="tone">성조 · 1성 → 높고 평평하게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b17">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">동물·자연</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🐱</div><div class="hanzi">小猫</div><div class="pinyin">xiǎomāo</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">동물·자연</span></div>
+              <div class="mid">
+                <div class="meaning">고양이</div>
+                <div class="kosound">발음 <span>·</span> 시아오마오</div>
+                <div class="tone">성조 · 3성+1성 → 앞은 낮게, 뒤는 높게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b18">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">동물·자연</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🐶</div><div class="hanzi">小狗</div><div class="pinyin">xiǎogǒu</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">동물·자연</span></div>
+              <div class="mid">
+                <div class="meaning">강아지</div>
+                <div class="kosound">발음 <span>·</span> 시아오고우</div>
+                <div class="tone">성조 · 3성+3성 → 앞을 2성처럼 올려서</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b19">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">동물·자연</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🐰</div><div class="hanzi">兔子</div><div class="pinyin">tùzi</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">동물·자연</span></div>
+              <div class="mid">
+                <div class="meaning">토끼</div>
+                <div class="kosound">발음 <span>·</span> 투쯔</div>
+                <div class="tone">성조 · 4성+가볍게 → 「투」를 뚝</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b20">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">동물·자연</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🐟</div><div class="hanzi">鱼</div><div class="pinyin">yú</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">동물·자연</span></div>
+              <div class="mid">
+                <div class="meaning">물고기</div>
+                <div class="kosound">발음 <span>·</span> 위</div>
+                <div class="tone">성조 · 2성 → 올리면서 「위」</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b21">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">동물·자연</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">☀️</div><div class="hanzi">太阳</div><div class="pinyin">tàiyáng</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">동물·자연</span></div>
+              <div class="mid">
+                <div class="meaning">해</div>
+                <div class="kosound">발음 <span>·</span> 타이양</div>
+                <div class="tone">성조 · 4성+2성 → 뚝, 그리고 올리기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b22">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">동물·자연</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🌙</div><div class="hanzi">月亮</div><div class="pinyin">yuèliang</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">동물·자연</span></div>
+              <div class="mid">
+                <div class="meaning">달</div>
+                <div class="kosound">발음 <span>·</span> 위에량</div>
+                <div class="tone">성조 · 4성+가볍게 → 「위에」를 뚝</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b23">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">동물·자연</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🌟</div><div class="hanzi">星星</div><div class="pinyin">xīngxing</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">동물·자연</span></div>
+              <div class="mid">
+                <div class="meaning">별</div>
+                <div class="kosound">발음 <span>·</span> 싱싱</div>
+                <div class="tone">성조 · 1성+가볍게 → 앞은 높게, 뒤는 짧게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b24">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">동물·자연</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🌸</div><div class="hanzi">花</div><div class="pinyin">huā</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">동물·자연</span></div>
+              <div class="mid">
+                <div class="meaning">꽃</div>
+                <div class="kosound">발음 <span>·</span> 화</div>
+                <div class="tone">성조 · 1성 → 높고 평평하게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b25">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">동물·자연</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🌧️</div><div class="hanzi">雨</div><div class="pinyin">yǔ</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">동물·자연</span></div>
+              <div class="mid">
+                <div class="meaning">비</div>
+                <div class="kosound">발음 <span>·</span> 위</div>
+                <div class="tone">성조 · 3성 → 낮게 깔았다 올리기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b26">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">먹기·음료</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">💧</div><div class="hanzi">水</div><div class="pinyin">shuǐ</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">먹기·음료</span></div>
               <div class="mid">
                 <div class="meaning">물</div>
                 <div class="kosound">발음 <span>·</span> 쉐이</div>
-                <div class="tone">성조 · 3성 → 낮게 깔았다가 올리기</div>
+                <div class="tone">성조 · 3성 → 낮게 깔았다 올리기</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="f02">
+        <div class="flip" data-id="b27">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">카페·음식</span></div>
-              <div class="mid"><div class="hanzi">咖啡</div><div class="pinyin">kāfēi</div></div>
+              <div class="card-top"><span class="chip">먹기·음료</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🥛</div><div class="hanzi">牛奶</div><div class="pinyin">niúnǎi</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">카페·음식</span></div>
-              <div class="mid">
-                <div class="meaning">커피</div>
-                <div class="kosound">발음 <span>·</span> 카 페이</div>
-                <div class="tone">성조 · 1성+1성 → 높게 평평</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flip" data-id="f03">
-          <div class="flip-inner">
-            <div class="face front">
-              <div class="card-top"><span class="chip">카페·음식</span></div>
-              <div class="mid"><div class="hanzi">茶</div><div class="pinyin">chá</div></div>
-            </div>
-            <div class="face back">
-              <div class="card-top"><span class="chip">카페·음식</span></div>
-              <div class="mid">
-                <div class="meaning">차(티)</div>
-                <div class="kosound">발음 <span>·</span> 차</div>
-                <div class="tone">성조 · 2성 → 올리면서 &#x27;차&#x27;</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flip" data-id="f04">
-          <div class="flip-inner">
-            <div class="face front">
-              <div class="card-top"><span class="chip">카페·음식</span></div>
-              <div class="mid"><div class="hanzi">好吃</div><div class="pinyin">hǎochī</div></div>
-            </div>
-            <div class="face back">
-              <div class="card-top"><span class="chip">카페·음식</span></div>
-              <div class="mid">
-                <div class="meaning">맛있어요</div>
-                <div class="kosound">발음 <span>·</span> 하오 츠</div>
-                <div class="tone">성조 · 3성+1성 → 낮게 갔다가 높게</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flip" data-id="f05">
-          <div class="flip-inner">
-            <div class="face front">
-              <div class="card-top"><span class="chip">카페·음식</span></div>
-              <div class="mid"><div class="hanzi">珍珠奶茶</div><div class="pinyin">zhēnzhū nǎichá</div></div>
-            </div>
-            <div class="face back">
-              <div class="card-top"><span class="chip">카페·음식</span></div>
-              <div class="mid">
-                <div class="meaning">버블티(타피오카 밀크티)</div>
-                <div class="kosound">발음 <span>·</span> 쩐 쭈 나이 차</div>
-                <div class="tone">성조 · 1성+1성+3성+2성 → &#x27;나이&#x27;는 낮게, &#x27;차&#x27;는 올리기</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flip" data-id="f06">
-          <div class="flip-inner">
-            <div class="face front">
-              <div class="card-top"><span class="chip">카페·음식</span></div>
-              <div class="mid"><div class="hanzi">草莓</div><div class="pinyin">cǎoméi</div></div>
-            </div>
-            <div class="face back">
-              <div class="card-top"><span class="chip">카페·음식</span></div>
-              <div class="mid">
-                <div class="meaning">딸기</div>
-                <div class="kosound">발음 <span>·</span> 차오 메이</div>
-                <div class="tone">성조 · 3성+2성 → &#x27;차오&#x27; 낮게, &#x27;메이&#x27; 올리기</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flip" data-id="f07">
-          <div class="flip-inner">
-            <div class="face front">
-              <div class="card-top"><span class="chip">카페·음식</span></div>
-              <div class="mid"><div class="hanzi">牛奶</div><div class="pinyin">niúnǎi</div></div>
-            </div>
-            <div class="face back">
-              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="card-top"><span class="chip">먹기·음료</span></div>
               <div class="mid">
                 <div class="meaning">우유</div>
-                <div class="kosound">발음 <span>·</span> 니우 나이</div>
+                <div class="kosound">발음 <span>·</span> 니우나이</div>
                 <div class="tone">성조 · 2성+3성 → 올렸다가 낮게</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="f08">
+        <div class="flip" data-id="b28">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">카페·음식</span></div>
-              <div class="mid"><div class="hanzi">我要这个</div><div class="pinyin">wǒ yào zhège</div></div>
+              <div class="card-top"><span class="chip">먹기·음료</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🍚</div><div class="hanzi">饭</div><div class="pinyin">fàn</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">카페·음식</span></div>
+              <div class="card-top"><span class="chip">먹기·음료</span></div>
               <div class="mid">
-                <div class="meaning">이거 주세요</div>
-                <div class="kosound">발음 <span>·</span> 워 야오 쩌 거</div>
-                <div class="tone">성조 · 3성+4성+4성+가볍게 → &#x27;워&#x27; 낮게</div>
+                <div class="meaning">밥</div>
+                <div class="kosound">발음 <span>·</span> 판</div>
+                <div class="tone">성조 · 4성 → 짧고 힘있게</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="e01">
+        <div class="flip" data-id="b29">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">감정·표현</span></div>
-              <div class="mid"><div class="hanzi">好</div><div class="pinyin">hǎo</div></div>
+              <div class="card-top"><span class="chip">먹기·음료</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🍞</div><div class="hanzi">面包</div><div class="pinyin">miànbāo</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">감정·표현</span></div>
+              <div class="card-top"><span class="chip">먹기·음료</span></div>
               <div class="mid">
-                <div class="meaning">좋아요</div>
+                <div class="meaning">빵</div>
+                <div class="kosound">발음 <span>·</span> 미엔바오</div>
+                <div class="tone">성조 · 4성+1성 → 뚝, 그리고 높게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b30">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">먹기·음료</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🍎</div><div class="hanzi">苹果</div><div class="pinyin">píngguǒ</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">먹기·음료</span></div>
+              <div class="mid">
+                <div class="meaning">사과</div>
+                <div class="kosound">발음 <span>·</span> 핑구오</div>
+                <div class="tone">성조 · 2성+3성 → 올렸다가 낮게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b31">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">먹기·음료</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🍌</div><div class="hanzi">香蕉</div><div class="pinyin">xiāngjiāo</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">먹기·음료</span></div>
+              <div class="mid">
+                <div class="meaning">바나나</div>
+                <div class="kosound">발음 <span>·</span> 시앙지아오</div>
+                <div class="tone">성조 · 1성+1성 → 둘 다 높게 평평</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b32">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">먹기·음료</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🍓</div><div class="hanzi">草莓</div><div class="pinyin">cǎoméi</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">먹기·음료</span></div>
+              <div class="mid">
+                <div class="meaning">딸기</div>
+                <div class="kosound">발음 <span>·</span> 차오메이</div>
+                <div class="tone">성조 · 3성+2성 → 「차오」 낮게, 「메이」 올리기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b33">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">먹기·음료</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🍵</div><div class="hanzi">茶</div><div class="pinyin">chá</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">먹기·음료</span></div>
+              <div class="mid">
+                <div class="meaning">차</div>
+                <div class="kosound">발음 <span>·</span> 차</div>
+                <div class="tone">성조 · 2성 → 올리면서 「차」</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b34">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🍽️</div><div class="hanzi">吃</div><div class="pinyin">chī</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid">
+                <div class="meaning">먹다</div>
+                <div class="kosound">발음 <span>·</span> 츠</div>
+                <div class="tone">성조 · 1성 → 높게 평평</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b35">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🥤</div><div class="hanzi">喝</div><div class="pinyin">hē</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid">
+                <div class="meaning">마시다</div>
+                <div class="kosound">발음 <span>·</span> 허</div>
+                <div class="tone">성조 · 1성 → 높게 평평</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b36">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">😴</div><div class="hanzi">睡觉</div><div class="pinyin">shuìjiào</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid">
+                <div class="meaning">자다</div>
+                <div class="kosound">발음 <span>·</span> 쉐이지아오</div>
+                <div class="tone">성조 · 4성+4성 → 뚝, 뚝</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b37">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">👀</div><div class="hanzi">看</div><div class="pinyin">kàn</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid">
+                <div class="meaning">보다</div>
+                <div class="kosound">발음 <span>·</span> 칸</div>
+                <div class="tone">성조 · 4성 → 짧고 힘있게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b38">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">👂</div><div class="hanzi">听</div><div class="pinyin">tīng</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid">
+                <div class="meaning">듣다</div>
+                <div class="kosound">발음 <span>·</span> 팅</div>
+                <div class="tone">성조 · 1성 → 높게 평평</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b39">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">😄</div><div class="hanzi">笑</div><div class="pinyin">xiào</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid">
+                <div class="meaning">웃다</div>
+                <div class="kosound">발음 <span>·</span> 시아오</div>
+                <div class="tone">성조 · 4성 → 뚝 떨어뜨리기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b40">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🐘</div><div class="hanzi">大</div><div class="pinyin">dà</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid">
+                <div class="meaning">크다</div>
+                <div class="kosound">발음 <span>·</span> 따</div>
+                <div class="tone">성조 · 4성 → 짧고 힘있게</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b41">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">🐭</div><div class="hanzi">小</div><div class="pinyin">xiǎo</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid">
+                <div class="meaning">작다</div>
+                <div class="kosound">발음 <span>·</span> 시아오</div>
+                <div class="tone">성조 · 3성 → 낮게 깔았다 올리기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flip" data-id="b42">
+          <div class="flip-inner">
+            <div class="face front">
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">👍</div><div class="hanzi">好</div><div class="pinyin">hǎo</div></div>
+            </div>
+            <div class="face back">
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid">
+                <div class="meaning">좋다</div>
                 <div class="kosound">발음 <span>·</span> 하오</div>
                 <div class="tone">성조 · 3성 → 낮게 깔았다 올리기</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="flip" data-id="e02">
+        <div class="flip" data-id="b43">
           <div class="flip-inner">
             <div class="face front">
-              <div class="card-top"><span class="chip">감정·표현</span></div>
-              <div class="mid"><div class="hanzi">可爱</div><div class="pinyin">kě&#x27;ài</div></div>
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
+              <div class="mid"><div class="emoji" aria-hidden="true">💗</div><div class="hanzi">喜欢</div><div class="pinyin">xǐhuan</div></div>
             </div>
             <div class="face back">
-              <div class="card-top"><span class="chip">감정·표현</span></div>
+              <div class="card-top"><span class="chip">동작·느낌</span></div>
               <div class="mid">
-                <div class="meaning">귀여워요</div>
-                <div class="kosound">발음 <span>·</span> 커 아이</div>
-                <div class="tone">성조 · 3성+4성 → &#x27;커&#x27; 낮게, &#x27;아이&#x27; 뚝</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flip" data-id="e03">
-          <div class="flip-inner">
-            <div class="face front">
-              <div class="card-top"><span class="chip">감정·표현</span></div>
-              <div class="mid"><div class="hanzi">开心</div><div class="pinyin">kāixīn</div></div>
-            </div>
-            <div class="face back">
-              <div class="card-top"><span class="chip">감정·표현</span></div>
-              <div class="mid">
-                <div class="meaning">기뻐요 · 행복해요</div>
-                <div class="kosound">발음 <span>·</span> 카이 신</div>
-                <div class="tone">성조 · 1성+1성 → 높게 평평</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flip" data-id="e04">
-          <div class="flip-inner">
-            <div class="face front">
-              <div class="card-top"><span class="chip">감정·표현</span></div>
-              <div class="mid"><div class="hanzi">累</div><div class="pinyin">lèi</div></div>
-            </div>
-            <div class="face back">
-              <div class="card-top"><span class="chip">감정·표현</span></div>
-              <div class="mid">
-                <div class="meaning">피곤해요</div>
-                <div class="kosound">발음 <span>·</span> 레이</div>
-                <div class="tone">성조 · 4성 → &#x27;레이&#x27; 톡 떨어뜨리기</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flip" data-id="e05">
-          <div class="flip-inner">
-            <div class="face front">
-              <div class="card-top"><span class="chip">감정·표현</span></div>
-              <div class="mid"><div class="hanzi">不知道</div><div class="pinyin">bù zhīdào</div></div>
-            </div>
-            <div class="face back">
-              <div class="card-top"><span class="chip">감정·표현</span></div>
-              <div class="mid">
-                <div class="meaning">몰라요</div>
-                <div class="kosound">발음 <span>·</span> 뿌 쯔 따오</div>
-                <div class="tone">성조 · 4성+1성+4성 → &#x27;쯔&#x27;만 높게</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flip" data-id="e06">
-          <div class="flip-inner">
-            <div class="face front">
-              <div class="card-top"><span class="chip">감정·표현</span></div>
-              <div class="mid"><div class="hanzi">加油</div><div class="pinyin">jiāyóu</div></div>
-            </div>
-            <div class="face back">
-              <div class="card-top"><span class="chip">감정·표현</span></div>
-              <div class="mid">
-                <div class="meaning">힘내요! · 화이팅</div>
-                <div class="kosound">발음 <span>·</span> 지아 요우</div>
-                <div class="tone">성조 · 1성+2성 → 높게 시작해서 올리기</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flip" data-id="s01">
-          <div class="flip-inner">
-            <div class="face front">
-              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
-              <div class="mid"><div class="hanzi">多少钱</div><div class="pinyin">duōshao qián</div></div>
-            </div>
-            <div class="face back">
-              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
-              <div class="mid">
-                <div class="meaning">얼마예요?</div>
-                <div class="kosound">발음 <span>·</span> 뚜어 샤오 치엔</div>
-                <div class="tone">성조 · 1성+가볍게+2성 → &#x27;치엔&#x27;을 올려서</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flip" data-id="s02">
-          <div class="flip-inner">
-            <div class="face front">
-              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
-              <div class="mid"><div class="hanzi">贵</div><div class="pinyin">guì</div></div>
-            </div>
-            <div class="face back">
-              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
-              <div class="mid">
-                <div class="meaning">비싸요</div>
-                <div class="kosound">발음 <span>·</span> 꾸이</div>
-                <div class="tone">성조 · 4성 → 짧고 힘있게</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flip" data-id="s03">
-          <div class="flip-inner">
-            <div class="face front">
-              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
-              <div class="mid"><div class="hanzi">便宜</div><div class="pinyin">piányi</div></div>
-            </div>
-            <div class="face back">
-              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
-              <div class="mid">
-                <div class="meaning">싸요</div>
-                <div class="kosound">발음 <span>·</span> 피엔 이</div>
-                <div class="tone">성조 · 2성+가볍게 → &#x27;피엔&#x27; 올리기</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flip" data-id="s04">
-          <div class="flip-inner">
-            <div class="face front">
-              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
-              <div class="mid"><div class="hanzi">快递</div><div class="pinyin">kuàidì</div></div>
-            </div>
-            <div class="face back">
-              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
-              <div class="mid">
-                <div class="meaning">택배</div>
-                <div class="kosound">발음 <span>·</span> 콰이 띠</div>
-                <div class="tone">성조 · 4성+4성 → 뚝, 뚝</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flip" data-id="s05">
-          <div class="flip-inner">
-            <div class="face front">
-              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
-              <div class="mid"><div class="hanzi">买</div><div class="pinyin">mǎi</div></div>
-            </div>
-            <div class="face back">
-              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
-              <div class="mid">
-                <div class="meaning">사다 · 살게요</div>
-                <div class="kosound">발음 <span>·</span> 마이</div>
-                <div class="tone">성조 · 3성 → 낮게 깔았다 올리기</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flip" data-id="s06">
-          <div class="flip-inner">
-            <div class="face front">
-              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
-              <div class="mid"><div class="hanzi">洗手间</div><div class="pinyin">xǐshǒujiān</div></div>
-            </div>
-            <div class="face back">
-              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
-              <div class="mid">
-                <div class="meaning">화장실</div>
-                <div class="kosound">발음 <span>·</span> 시 서우 지엔</div>
-                <div class="tone">성조 · 3성+3성+1성 → 앞은 낮게</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flip" data-id="s07">
-          <div class="flip-inner">
-            <div class="face front">
-              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
-              <div class="mid"><div class="hanzi">手工</div><div class="pinyin">shǒugōng</div></div>
-            </div>
-            <div class="face back">
-              <div class="card-top"><span class="chip">쇼핑·일상</span></div>
-              <div class="mid">
-                <div class="meaning">수작업 · 핸드메이드</div>
-                <div class="kosound">발음 <span>·</span> 서우 꿍</div>
-                <div class="tone">성조 · 3성+1성 → 낮게 갔다가 높게</div>
+                <div class="meaning">좋아하다</div>
+                <div class="kosound">발음 <span>·</span> 시환</div>
+                <div class="tone">성조 · 3성+가볍게 → 「시」를 낮게</div>
               </div>
             </div>
           </div>
@@ -982,55 +1277,76 @@
      1. 단어 데이터
      ========================================================= */
   var WORDS = [
-    /* 인사·기본 */
-    {id:"g01", hanzi:"你好", pinyin:"nǐ hǎo", koSound:"니 하오", meaning:"안녕하세요", category:"인사·기본", tone:"3성+3성 → 앞 글자는 2성처럼 올려서 '니 하오'"},
-    {id:"g02", hanzi:"谢谢", pinyin:"xièxie", koSound:"시에 시에", meaning:"고마워요", category:"인사·기본", tone:"4성+가볍게 → '시에'를 또박또박 짧게"},
-    {id:"g03", hanzi:"不客气", pinyin:"bú kèqi", koSound:"뿌 커 치", meaning:"천만에요", category:"인사·기본", tone:"不는 4성 앞에서 2성 → '뿌'"},
-    {id:"g04", hanzi:"再见", pinyin:"zàijiàn", koSound:"짜이 지엔", meaning:"안녕히 가세요 · 또 봐요", category:"인사·기본", tone:"4성+4성 → 힘 있게 뚝뚝"},
-    {id:"g05", hanzi:"对不起", pinyin:"duìbuqǐ", koSound:"뚜이 뿌 치", meaning:"미안해요", category:"인사·기본", tone:"4성+가볍게+3성 → 끝을 올려요"},
-    {id:"g06", hanzi:"没关系", pinyin:"méi guānxi", koSound:"메이 꾸안 시", meaning:"괜찮아요", category:"인사·기본", tone:"2성+1성+가볍게 → '메이'를 올려서"},
-    {id:"g07", hanzi:"请问", pinyin:"qǐngwèn", koSound:"칭 원", meaning:"실례합니다 · 여쭤볼게요", category:"인사·기본", tone:"3성+4성 → 낮게 깔았다가 올리기"},
-    {id:"g08", hanzi:"是", pinyin:"shì", koSound:"스", meaning:"~이다 · 네", category:"인사·기본", tone:"4성 → 아주 짧게 뚝"},
+    /* ㄱㄴㄷ 기초 발음 */
+    {id:"p01", emoji:"🎵", hanzi:"ā", pinyin:"1성 · 높고 평평", koSound:"아~", meaning:"높게 평평하게 「아~」", category:"ㄱㄴㄷ 기초 발음", tipLabel:"성조", tone:"처음부터 끝까지 같은 높이로 길게. 「妈 mā」", tts:"妈"},
+    {id:"p02", emoji:"📈", hanzi:"á", pinyin:"2성 · 올라가기", koSound:"아?", meaning:"아래서 위로 「아?」", category:"ㄱㄴㄷ 기초 발음", tipLabel:"성조", tone:"질문하듯 끝을 쭉 올려요. 「麻 má」", tts:"麻"},
+    {id:"p03", emoji:"📉", hanzi:"ǎ", pinyin:"3성 · 내려갔다 올리기", koSound:"아~", meaning:"낮게 깔았다 올리기 「아~」", category:"ㄱㄴㄷ 기초 발음", tipLabel:"성조", tone:"가장 낮게 깔았다가 끝만 살짝 올려요. 「马 mǎ」", tts:"马"},
+    {id:"p04", emoji:"⚡", hanzi:"à", pinyin:"4성 · 뚝 떨어뜨리기", koSound:"아!", meaning:"위에서 아래로 뚝 「아!」", category:"ㄱㄴㄷ 기초 발음", tipLabel:"성조", tone:"짧고 힘있게 아래로 떨어뜨려요. 「骂 mà」", tts:"骂"},
+    {id:"p05", emoji:"👄", hanzi:"b p m f", pinyin:"bo po mo fo", koSound:"bo po mo fo", meaning:"뽀 · 포 · 모 · 포", category:"ㄱㄴㄷ 기초 발음", tipLabel:"소리", tone:"두 입술을 붙였다 떼며 내요. f는 윗니를 아랫입술에 붙여요.", tts:"波 坡 摸 佛"},
+    {id:"p06", emoji:"👅", hanzi:"d t n l", pinyin:"de te ne le", koSound:"de te ne le", meaning:"더 · 터 · 너 · 러", category:"ㄱㄴㄷ 기초 발음", tipLabel:"소리", tone:"혀끝을 윗잇몸에 대고 떼며 내요.", tts:"得 特 呢 了"},
+    {id:"p07", emoji:"🗣️", hanzi:"g k h", pinyin:"ge ke he", koSound:"ge ke he", meaning:"거 · 커 · 허", category:"ㄱㄴㄷ 기초 발음", tipLabel:"소리", tone:"목구멍 뒤쪽에서 나는 소리. h는 숨을 「하」 하고 내요.", tts:"哥 科 喝"},
+    {id:"p08", emoji:"✨", hanzi:"j q x", pinyin:"ji qi xi", koSound:"ji qi xi", meaning:"지 · 치 · 시", category:"ㄱㄴㄷ 기초 발음", tipLabel:"소리", tone:"혀를 윗잇몸에 가볍게 붙였다 떼며 내요.", tts:"机 七 西"},
+    {id:"p09", emoji:"🌀", hanzi:"zh ch sh r", pinyin:"zhi chi shi ri", koSound:"zhi chi shi ri", meaning:"즈 · 츠 · 스 · 르", category:"ㄱㄴㄷ 기초 발음", tipLabel:"소리", tone:"혀를 살짝 말아 올리고 내요. r은 「르」에 가깝게.", tts:"知 吃 诗 日"},
+    {id:"p10", emoji:"💨", hanzi:"z c s", pinyin:"zi ci si", koSound:"zi ci si", meaning:"쯔 · 츠 · 쓰", category:"ㄱㄴㄷ 기초 발음", tipLabel:"소리", tone:"혀를 펴고 앞니 뒤에서 내요. 위의 5번과 꼭 비교해 보세요.", tts:"资 次 思"},
+    {id:"p11", emoji:"⭕", hanzi:"a o e", pinyin:"a o e", koSound:"a o e", meaning:"아 · 오 · 으어", category:"ㄱㄴㄷ 기초 발음", tipLabel:"소리", tone:"입을 크게 벌려 「啊 a」, 동그랗게 「哦 o」, 「鹅 e」.", tts:"啊 哦 鹅"},
+    {id:"p12", emoji:"🫧", hanzi:"i u ü", pinyin:"yi wu yu", koSound:"yi wu yu", meaning:"이 · 우 · 위", category:"ㄱㄴㄷ 기초 발음", tipLabel:"소리", tone:"ü는 입을 「우」 모양으로 모으고 「이」 소리를 내요.", tts:"衣 乌 鱼"},
 
-    /* 숫자·시간 */
-    {id:"n01", hanzi:"一", pinyin:"yī", koSound:"이", meaning:"하나 · 1", category:"숫자·시간", tone:"1성 → 높고 평평하게 길게"},
-    {id:"n02", hanzi:"二", pinyin:"èr", koSound:"얼", meaning:"둘 · 2", category:"숫자·시간", tone:"4성 → '얼'을 톡 떨어뜨리기"},
-    {id:"n03", hanzi:"三", pinyin:"sān", koSound:"싼", meaning:"셋 · 3", category:"숫자·시간", tone:"1성 → 높은 음을 쭉 유지"},
-    {id:"n04", hanzi:"十", pinyin:"shí", koSound:"스", meaning:"열 · 10", category:"숫자·시간", tone:"2성 → 끝을 올려 올려"},
-    {id:"n05", hanzi:"今天", pinyin:"jīntiān", koSound:"찐 티엔", meaning:"오늘", category:"숫자·시간", tone:"1성+1성 → 둘 다 높게 평평"},
-    {id:"n06", hanzi:"明天", pinyin:"míngtiān", koSound:"밍 티엔", meaning:"내일", category:"숫자·시간", tone:"2성+1성 → 올렸다가 그대로"},
-    {id:"n07", hanzi:"现在", pinyin:"xiànzài", koSound:"시엔 짜이", meaning:"지금", category:"숫자·시간", tone:"4성+4성 → 뚝, 뚝"},
-    {id:"n08", hanzi:"几点了", pinyin:"jǐ diǎn le", koSound:"지 띠엔 러", meaning:"몇 시예요?", category:"숫자·시간", tone:"3성+3성+가볍게 → '지 띠엔' 낮게"},
+    /* 사람·호칭 */
+    {id:"b01", emoji:"🙋", hanzi:"我", pinyin:"wǒ", koSound:"워", meaning:"나", category:"사람·호칭", tipLabel:"성조", tone:"3성 → 낮게 깔았다 올리기"},
+    {id:"b02", emoji:"👉", hanzi:"你", pinyin:"nǐ", koSound:"니", meaning:"너", category:"사람·호칭", tipLabel:"성조", tone:"3성 → 낮게 깔았다 올리기"},
+    {id:"b03", emoji:"🫂", hanzi:"我们", pinyin:"wǒmen", koSound:"워먼", meaning:"우리", category:"사람·호칭", tipLabel:"성조", tone:"3성+가볍게 → 「워」를 낮게"},
+    {id:"b04", emoji:"👩", hanzi:"妈妈", pinyin:"māma", koSound:"마마", meaning:"엄마", category:"사람·호칭", tipLabel:"성조", tone:"1성+가볍게 → 두 번째는 짧게"},
+    {id:"b05", emoji:"👨", hanzi:"爸爸", pinyin:"bàba", koSound:"빠바", meaning:"아빠", category:"사람·호칭", tipLabel:"성조", tone:"4성+가볍게 → 「빠」는 뚝"},
+    {id:"b06", emoji:"🤝", hanzi:"朋友", pinyin:"péngyou", koSound:"펑요우", meaning:"친구", category:"사람·호칭", tipLabel:"성조", tone:"2성+가볍게 → 「펑」을 올려서"},
+    {id:"b07", emoji:"👩‍🏫", hanzi:"老师", pinyin:"lǎoshī", koSound:"라오스", meaning:"선생님", category:"사람·호칭", tipLabel:"성조", tone:"3성+1성 → 「라오」 낮게, 「스」 높게"},
+    {id:"b08", emoji:"🙌", hanzi:"大家", pinyin:"dàjiā", koSound:"따지아", meaning:"모두", category:"사람·호칭", tipLabel:"성조", tone:"4성+1성 → 딱, 높게"},
 
-    /* 카페·음식 */
-    {id:"f01", hanzi:"水", pinyin:"shuǐ", koSound:"쉐이", meaning:"물", category:"카페·음식", tone:"3성 → 낮게 깔았다가 올리기"},
-    {id:"f02", hanzi:"咖啡", pinyin:"kāfēi", koSound:"카 페이", meaning:"커피", category:"카페·음식", tone:"1성+1성 → 높게 평평"},
-    {id:"f03", hanzi:"茶", pinyin:"chá", koSound:"차", meaning:"차(티)", category:"카페·음식", tone:"2성 → 올리면서 '차'"},
-    {id:"f04", hanzi:"好吃", pinyin:"hǎochī", koSound:"하오 츠", meaning:"맛있어요", category:"카페·음식", tone:"3성+1성 → 낮게 갔다가 높게"},
-    {id:"f05", hanzi:"珍珠奶茶", pinyin:"zhēnzhū nǎichá", koSound:"쩐 쭈 나이 차", meaning:"버블티(타피오카 밀크티)", category:"카페·음식", tone:"1성+1성+3성+2성 → '나이'는 낮게, '차'는 올리기"},
-    {id:"f06", hanzi:"草莓", pinyin:"cǎoméi", koSound:"차오 메이", meaning:"딸기", category:"카페·음식", tone:"3성+2성 → '차오' 낮게, '메이' 올리기"},
-    {id:"f07", hanzi:"牛奶", pinyin:"niúnǎi", koSound:"니우 나이", meaning:"우유", category:"카페·음식", tone:"2성+3성 → 올렸다가 낮게"},
-    {id:"f08", hanzi:"我要这个", pinyin:"wǒ yào zhège", koSound:"워 야오 쩌 거", meaning:"이거 주세요", category:"카페·음식", tone:"3성+4성+4성+가볍게 → '워' 낮게"},
+    /* 몸·감각 */
+    {id:"b09", emoji:"👀", hanzi:"眼睛", pinyin:"yǎnjing", koSound:"옌징", meaning:"눈", category:"몸·감각", tipLabel:"성조", tone:"3성+가볍게 → 「옌」을 낮게"},
+    {id:"b10", emoji:"👃", hanzi:"鼻子", pinyin:"bízi", koSound:"비즈", meaning:"코", category:"몸·감각", tipLabel:"성조", tone:"2성+가볍게 → 「비」를 올려서"},
+    {id:"b11", emoji:"👄", hanzi:"嘴巴", pinyin:"zuǐba", koSound:"쭈이바", meaning:"입", category:"몸·감각", tipLabel:"성조", tone:"3성+가볍게 → 「쭈이」 낮게"},
+    {id:"b12", emoji:"👂", hanzi:"耳朵", pinyin:"ěrduo", koSound:"얼뚜오", meaning:"귀", category:"몸·감각", tipLabel:"성조", tone:"3성+가볍게 → 「얼」을 낮게"},
+    {id:"b13", emoji:"✋", hanzi:"手", pinyin:"shǒu", koSound:"서우", meaning:"손", category:"몸·감각", tipLabel:"성조", tone:"3성 → 낮게 깔았다 올리기"},
+    {id:"b14", emoji:"🦶", hanzi:"脚", pinyin:"jiǎo", koSound:"지아오", meaning:"발", category:"몸·감각", tipLabel:"성조", tone:"3성 → 낮게 깔았다 올리기"},
+    {id:"b15", emoji:"🙂", hanzi:"头", pinyin:"tóu", koSound:"토우", meaning:"머리", category:"몸·감각", tipLabel:"성조", tone:"2성 → 끝을 올려서"},
+    {id:"b16", emoji:"💗", hanzi:"心", pinyin:"xīn", koSound:"신", meaning:"마음", category:"몸·감각", tipLabel:"성조", tone:"1성 → 높고 평평하게"},
 
-    /* 감정·표현 */
-    {id:"e01", hanzi:"好", pinyin:"hǎo", koSound:"하오", meaning:"좋아요", category:"감정·표현", tone:"3성 → 낮게 깔았다 올리기"},
-    {id:"e02", hanzi:"可爱", pinyin:"kě'ài", koSound:"커 아이", meaning:"귀여워요", category:"감정·표현", tone:"3성+4성 → '커' 낮게, '아이' 뚝"},
-    {id:"e03", hanzi:"开心", pinyin:"kāixīn", koSound:"카이 신", meaning:"기뻐요 · 행복해요", category:"감정·표현", tone:"1성+1성 → 높게 평평"},
-    {id:"e04", hanzi:"累", pinyin:"lèi", koSound:"레이", meaning:"피곤해요", category:"감정·표현", tone:"4성 → '레이' 톡 떨어뜨리기"},
-    {id:"e05", hanzi:"不知道", pinyin:"bù zhīdào", koSound:"뿌 쯔 따오", meaning:"몰라요", category:"감정·표현", tone:"4성+1성+4성 → '쯔'만 높게"},
-    {id:"e06", hanzi:"加油", pinyin:"jiāyóu", koSound:"지아 요우", meaning:"힘내요! · 화이팅", category:"감정·표현", tone:"1성+2성 → 높게 시작해서 올리기"},
+    /* 동물·자연 */
+    {id:"b17", emoji:"🐱", hanzi:"小猫", pinyin:"xiǎomāo", koSound:"시아오마오", meaning:"고양이", category:"동물·자연", tipLabel:"성조", tone:"3성+1성 → 앞은 낮게, 뒤는 높게"},
+    {id:"b18", emoji:"🐶", hanzi:"小狗", pinyin:"xiǎogǒu", koSound:"시아오고우", meaning:"강아지", category:"동물·자연", tipLabel:"성조", tone:"3성+3성 → 앞을 2성처럼 올려서"},
+    {id:"b19", emoji:"🐰", hanzi:"兔子", pinyin:"tùzi", koSound:"투쯔", meaning:"토끼", category:"동물·자연", tipLabel:"성조", tone:"4성+가볍게 → 「투」를 뚝"},
+    {id:"b20", emoji:"🐟", hanzi:"鱼", pinyin:"yú", koSound:"위", meaning:"물고기", category:"동물·자연", tipLabel:"성조", tone:"2성 → 올리면서 「위」"},
+    {id:"b21", emoji:"☀️", hanzi:"太阳", pinyin:"tàiyáng", koSound:"타이양", meaning:"해", category:"동물·자연", tipLabel:"성조", tone:"4성+2성 → 뚝, 그리고 올리기"},
+    {id:"b22", emoji:"🌙", hanzi:"月亮", pinyin:"yuèliang", koSound:"위에량", meaning:"달", category:"동물·자연", tipLabel:"성조", tone:"4성+가볍게 → 「위에」를 뚝"},
+    {id:"b23", emoji:"🌟", hanzi:"星星", pinyin:"xīngxing", koSound:"싱싱", meaning:"별", category:"동물·자연", tipLabel:"성조", tone:"1성+가볍게 → 앞은 높게, 뒤는 짧게"},
+    {id:"b24", emoji:"🌸", hanzi:"花", pinyin:"huā", koSound:"화", meaning:"꽃", category:"동물·자연", tipLabel:"성조", tone:"1성 → 높고 평평하게"},
+    {id:"b25", emoji:"🌧️", hanzi:"雨", pinyin:"yǔ", koSound:"위", meaning:"비", category:"동물·자연", tipLabel:"성조", tone:"3성 → 낮게 깔았다 올리기"},
 
-    /* 쇼핑·일상 */
-    {id:"s01", hanzi:"多少钱", pinyin:"duōshao qián", koSound:"뚜어 샤오 치엔", meaning:"얼마예요?", category:"쇼핑·일상", tone:"1성+가볍게+2성 → '치엔'을 올려서"},
-    {id:"s02", hanzi:"贵", pinyin:"guì", koSound:"꾸이", meaning:"비싸요", category:"쇼핑·일상", tone:"4성 → 짧고 힘있게"},
-    {id:"s03", hanzi:"便宜", pinyin:"piányi", koSound:"피엔 이", meaning:"싸요", category:"쇼핑·일상", tone:"2성+가볍게 → '피엔' 올리기"},
-    {id:"s04", hanzi:"快递", pinyin:"kuàidì", koSound:"콰이 띠", meaning:"택배", category:"쇼핑·일상", tone:"4성+4성 → 뚝, 뚝"},
-    {id:"s05", hanzi:"买", pinyin:"mǎi", koSound:"마이", meaning:"사다 · 살게요", category:"쇼핑·일상", tone:"3성 → 낮게 깔았다 올리기"},
-    {id:"s06", hanzi:"洗手间", pinyin:"xǐshǒujiān", koSound:"시 서우 지엔", meaning:"화장실", category:"쇼핑·일상", tone:"3성+3성+1성 → 앞은 낮게"},
-    {id:"s07", hanzi:"手工", pinyin:"shǒugōng", koSound:"서우 꿍", meaning:"수작업 · 핸드메이드", category:"쇼핑·일상", tone:"3성+1성 → 낮게 갔다가 높게"}
+    /* 먹기·음료 */
+    {id:"b26", emoji:"💧", hanzi:"水", pinyin:"shuǐ", koSound:"쉐이", meaning:"물", category:"먹기·음료", tipLabel:"성조", tone:"3성 → 낮게 깔았다 올리기"},
+    {id:"b27", emoji:"🥛", hanzi:"牛奶", pinyin:"niúnǎi", koSound:"니우나이", meaning:"우유", category:"먹기·음료", tipLabel:"성조", tone:"2성+3성 → 올렸다가 낮게"},
+    {id:"b28", emoji:"🍚", hanzi:"饭", pinyin:"fàn", koSound:"판", meaning:"밥", category:"먹기·음료", tipLabel:"성조", tone:"4성 → 짧고 힘있게"},
+    {id:"b29", emoji:"🍞", hanzi:"面包", pinyin:"miànbāo", koSound:"미엔바오", meaning:"빵", category:"먹기·음료", tipLabel:"성조", tone:"4성+1성 → 뚝, 그리고 높게"},
+    {id:"b30", emoji:"🍎", hanzi:"苹果", pinyin:"píngguǒ", koSound:"핑구오", meaning:"사과", category:"먹기·음료", tipLabel:"성조", tone:"2성+3성 → 올렸다가 낮게"},
+    {id:"b31", emoji:"🍌", hanzi:"香蕉", pinyin:"xiāngjiāo", koSound:"시앙지아오", meaning:"바나나", category:"먹기·음료", tipLabel:"성조", tone:"1성+1성 → 둘 다 높게 평평"},
+    {id:"b32", emoji:"🍓", hanzi:"草莓", pinyin:"cǎoméi", koSound:"차오메이", meaning:"딸기", category:"먹기·음료", tipLabel:"성조", tone:"3성+2성 → 「차오」 낮게, 「메이」 올리기"},
+    {id:"b33", emoji:"🍵", hanzi:"茶", pinyin:"chá", koSound:"차", meaning:"차", category:"먹기·음료", tipLabel:"성조", tone:"2성 → 올리면서 「차」"},
+
+    /* 동작·느낌 */
+    {id:"b34", emoji:"🍽️", hanzi:"吃", pinyin:"chī", koSound:"츠", meaning:"먹다", category:"동작·느낌", tipLabel:"성조", tone:"1성 → 높게 평평"},
+    {id:"b35", emoji:"🥤", hanzi:"喝", pinyin:"hē", koSound:"허", meaning:"마시다", category:"동작·느낌", tipLabel:"성조", tone:"1성 → 높게 평평"},
+    {id:"b36", emoji:"😴", hanzi:"睡觉", pinyin:"shuìjiào", koSound:"쉐이지아오", meaning:"자다", category:"동작·느낌", tipLabel:"성조", tone:"4성+4성 → 뚝, 뚝"},
+    {id:"b37", emoji:"👀", hanzi:"看", pinyin:"kàn", koSound:"칸", meaning:"보다", category:"동작·느낌", tipLabel:"성조", tone:"4성 → 짧고 힘있게"},
+    {id:"b38", emoji:"👂", hanzi:"听", pinyin:"tīng", koSound:"팅", meaning:"듣다", category:"동작·느낌", tipLabel:"성조", tone:"1성 → 높게 평평"},
+    {id:"b39", emoji:"😄", hanzi:"笑", pinyin:"xiào", koSound:"시아오", meaning:"웃다", category:"동작·느낌", tipLabel:"성조", tone:"4성 → 뚝 떨어뜨리기"},
+    {id:"b40", emoji:"🐘", hanzi:"大", pinyin:"dà", koSound:"따", meaning:"크다", category:"동작·느낌", tipLabel:"성조", tone:"4성 → 짧고 힘있게"},
+    {id:"b41", emoji:"🐭", hanzi:"小", pinyin:"xiǎo", koSound:"시아오", meaning:"작다", category:"동작·느낌", tipLabel:"성조", tone:"3성 → 낮게 깔았다 올리기"},
+    {id:"b42", emoji:"👍", hanzi:"好", pinyin:"hǎo", koSound:"하오", meaning:"좋다", category:"동작·느낌", tipLabel:"성조", tone:"3성 → 낮게 깔았다 올리기"},
+    {id:"b43", emoji:"💗", hanzi:"喜欢", pinyin:"xǐhuan", koSound:"시환", meaning:"좋아하다", category:"동작·느낌", tipLabel:"성조", tone:"3성+가볍게 → 「시」를 낮게"},
   ];
 
-  var CATEGORIES = ["인사·기본", "숫자·시간", "카페·음식", "감정·표현", "쇼핑·일상"];
+  var CATEGORIES = ["ㄱㄴㄷ 기초 발음", "사람·호칭", "몸·감각", "동물·자연", "먹기·음료", "동작·느낌"];
+  var PRON_CAT = CATEGORIES[0];   /* 발음 카드는 4지선다 퀴즈에서 빼요 */
   var LS_MASTERED = "pckl_cn_mastered_v1";
   var LS_CUSTOM = "pckl_cn_custom_v1";
 
@@ -1210,7 +1526,12 @@
     var done = mastered.has(w.id);
     var isOn = flipped.has(w.id);
     var cls = "flip" + (isOn ? " on" : "") + (done ? " done" : "");
-    var delay = index ? Math.min(index * 32, 320) : 0;
+    var delay = index ? Math.min(index * 26, 260) : 0;
+
+    var ttsText = w.tts || w.hanzi || "";
+    var emojiHTML = w.emoji ? '<div class="emoji" aria-hidden="true">' + esc(w.emoji) + "</div>" : "";
+    var hanziCls = "hanzi" + (String(w.hanzi || "").length >= 6 ? " compact" : "");
+    var tipLabel = w.tipLabel || "성조";
 
     var head = '<div class="card-top">'
       + '<span class="chip">' + esc(w.category) + (w.custom ? '</span><span class="chip mine">내 단어' : "") + "</span>"
@@ -1219,9 +1540,11 @@
 
     var front = '<div class="face front">'
       + head
-      + '<div class="mid"><div class="hanzi">' + esc(w.hanzi) + '</div><div class="pinyin">' + esc(w.pinyin) + "</div></div>"
+      + '<div class="mid">' + emojiHTML
+      + '<div class="' + hanziCls + '">' + esc(w.hanzi) + '</div>'
+      + '<div class="pinyin">' + esc(w.pinyin) + "</div></div>"
       + '<div class="card-bottom"><span class="tap-hint">톡 눌러서 뜻 보기</span>'
-      + '<button class="icon-btn" data-act="listen" data-text="' + esc(w.hanzi) + '" aria-label="발음 듣기">🔊</button></div>'
+      + '<button class="icon-btn" data-act="listen" data-text="' + esc(ttsText) + '" aria-label="발음 듣기">🔊</button></div>'
       + "</div>";
 
     var back = '<div class="face back">'
@@ -1229,10 +1552,10 @@
       + '<div class="mid">'
       + '<div class="meaning">' + esc(w.meaning) + "</div>"
       + '<div class="kosound">발음 <span>·</span> ' + esc(w.koSound || "—") + "</div>"
-      + '<div class="tone">성조 · ' + esc(w.tone || "천천히 또박또박") + "</div>"
+      + '<div class="tone">' + esc(tipLabel) + ' · ' + esc(w.tone || "천천히 또박또박") + "</div>"
       + "</div>"
       + '<div class="card-bottom"><span class="tap-hint">톡 눌러서 다시 보기</span>'
-      + '<button class="icon-btn" data-act="listen" data-text="' + esc(w.hanzi) + '" aria-label="발음 듣기">🔊</button></div>'
+      + '<button class="icon-btn" data-act="listen" data-text="' + esc(ttsText) + '" aria-label="발음 듣기">🔊</button></div>'
       + "</div>";
 
     return '<div class="' + cls + '" data-act="flip" data-id="' + esc(w.id) + '" style="animation-delay:' + delay + 'ms">'
@@ -1278,6 +1601,7 @@
     var sel = document.getElementById("fCategory");
     var html = "";
     for(var i = 0; i < CATEGORIES.length; i++){
+      if(CATEGORIES[i] === PRON_CAT) continue;   /* 발음 카드는 직접 추가하지 않아요 */
       html += '<option value="' + esc(CATEGORIES[i]) + '">' + esc(CATEGORIES[i]) + "</option>";
     }
     sel.innerHTML = html;
@@ -1331,10 +1655,20 @@
   function renderQuizHome(){
     quizBox.innerHTML = '<div class="quiz-start">'
       + '<div class="quiz-emoji">🍓</div>'
-      + "<h3>가볍게 4지선다 복습</h3>"
-      + "<p>뜻 · 한자 · 병음을 골고루 물어볼게요.<br>틀려도 괜찮으니까 편하게 눌러 주세요 🫧</p>"
+      + "<h3>그림 낱말로 4지선다 복습</h3>"
+      + "<p>ㄱㄴㄷ 발음 카드는 빼고, 일상 낱말만 골고루 물어볼게요.<br>틀려도 괜찮으니까 편하게 눌러 주세요 🫧</p>"
       + '<button class="primary-btn" data-act="quiz-start">시작하기</button>'
       + "</div>";
+  }
+
+  /* ㄱㄴㄷ 기초 발음 카드는 4지선다(뜻·한자·병음)에서 빼요. PRON_CAT 은 데이터 블록에서 정의 */
+  function quizPool(){
+    var all = allWords();
+    var out = [];
+    for(var i = 0; i < all.length; i++){
+      if(all[i].category !== PRON_CAT) out.push(all[i]);
+    }
+    return out;
   }
 
   function startQuiz(){
@@ -1344,11 +1678,11 @@
   }
 
   function nextQuestion(){
-    var pool = allWords();
+    var pool = quizPool();
     if(pool.length < 4){
       quizBox.innerHTML = '<div class="quiz-start"><div class="quiz-emoji">🫧</div>'
-        + "<h3>단어가 조금 더 필요해요</h3>"
-        + "<p>퀴즈는 단어 4개부터 만들 수 있어요.<br>‘➕ 단어 추가’에서 더 담아 주세요!</p></div>";
+        + "<h3>낱말이 조금 더 필요해요</h3>"
+        + "<p>퀴즈는 낱말 4개부터 만들 수 있어요.<br>‘➕ 단어 추가’에서 더 담아 주세요!</p></div>";
       return;
     }
 
@@ -1358,7 +1692,8 @@
     }
 
     var r = Math.random();
-    var type = r < 0.4 ? "meaning" : (r < 0.75 ? "hanzi" : "pinyin");
+    var type = r < 0.4 ? "meaning" : (r < 0.72 ? "hanzi" : "pinyin");
+    if(type === "pinyin" && !target.pinyin){ type = "hanzi"; }
     var key = type === "meaning" ? "meaning" : (type === "hanzi" ? "hanzi" : "pinyin");
     var correctText = target[key] || "";
 
@@ -1391,12 +1726,14 @@
 
     if(q.type === "meaning"){
       label = "이 단어의 뜻은?";
-      prompt = '<div class="q-hanzi">' + esc(q.target.hanzi) + '</div>'
+      prompt = (q.target.emoji ? '<div class="q-emoji" aria-hidden="true">' + esc(q.target.emoji) + "</div>" : "")
+        + '<div class="q-hanzi">' + esc(q.target.hanzi) + '</div>'
         + '<div class="q-pinyin">' + esc(q.target.pinyin) + "</div>"
-        + '<button class="q-listen" data-act="quiz-listen" data-text="' + esc(q.target.hanzi) + '">🔊 발음 듣기</button>';
+        + '<button class="q-listen" data-act="quiz-listen" data-text="' + esc(q.target.tts || q.target.hanzi) + '">🔊 발음 듣기</button>';
     }else if(q.type === "hanzi"){
       label = "이 뜻의 중국어는?";
-      prompt = '<div class="q-meaning">' + esc(q.target.meaning) + "</div>";
+      prompt = (q.target.emoji ? '<div class="q-emoji" aria-hidden="true">' + esc(q.target.emoji) + "</div>" : "")
+        + '<div class="q-meaning">' + esc(q.target.meaning) + "</div>";
     }else{
       label = "이 단어의 병음은?";
       prompt = '<div class="q-hanzi">' + esc(q.target.hanzi) + "</div>";
